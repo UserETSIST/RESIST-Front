@@ -4,9 +4,11 @@ import type { DatepickerOptions, DatepickerInterface } from 'flowbite';
 import type { InstanceOptions } from 'flowbite';
 import { DateRangePicker } from 'flowbite-datepicker';
 import { FlowbiteService } from '../../../services/flowbite.service';
+import { HeaderComponent } from '../header/header.component';
+import { FooterComponent } from '../footer/footer.component';
 @Component({
   selector: 'app-table',
-  imports: [],
+  imports: [HeaderComponent, FooterComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
 })
