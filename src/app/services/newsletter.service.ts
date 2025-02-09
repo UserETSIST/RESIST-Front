@@ -1,13 +1,16 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {  HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_CONFIG } from '../../environments/environment';
+import { API_ENDPOINTS } from '../../environments/api-endpoints';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewsletterService {
-  private apiUrl = 'https://api.example.com/newsletter/subscribe'; // Replace with your API endpoint
+  
+  private baseUrl = API_CONFIG.baseUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -15,6 +18,6 @@ export class NewsletterService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = { email };
 
-    return this.http.post(this.apiUrl, body, { headers });
+    return this.http.post(`${this.baseUrl}${API_ENDPOINTS.NEWSLETTER.SUBSCRIBE}`, body, { headers });
   }
 }

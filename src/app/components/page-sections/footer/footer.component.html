@@ -49,10 +49,10 @@
                 <div class="items-end space-y-4 sm:flex sm:space-y-0">
                   <div class="relative mr-3 w-full sm:w-96 lg:w-full">
                     <label for="email" class="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300"> Don't miss the latest news. </label>
-                    <input class="block w-full rounded-lg border border-gray-300 bg-white p-3 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:w-96 lg:w-full" placeholder="Enter your email address" type="email" id="email" required="" />
+                    <input [(ngModel)]="email" name="email" class="block w-full rounded-lg border border-gray-300 bg-white p-3 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:w-96 lg:w-full" placeholder="Enter your email address" type="email" id="email" required="" />
                   </div>
                   <div >
-                    <button type="submit" class="text-white bg-gradient-to-br from-red-500 via-red-600 to-pink-700 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-3 text-center">Subscribe</button>
+                    <button (click)="onSubscribe()" type="submit" class="text-white bg-gradient-to-br from-red-500 via-red-600 to-pink-700 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-3 text-center">Subscribe</button>
                   </div>
                 </div>
               </form>

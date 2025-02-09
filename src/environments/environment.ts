@@ -7,4 +7,4 @@ export const environment = {
 
 export const API_CONFIG = {
     baseUrl: 'http://backend_api:8000'
-}
+};
