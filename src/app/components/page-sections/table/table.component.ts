@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Datepicker } from 'flowbite';
+import { Datepicker } from 'flowbite-datepicker';
 import type { DatepickerOptions, DatepickerInterface } from 'flowbite';
 import type { InstanceOptions } from 'flowbite';
 import { DateRangePicker } from 'flowbite-datepicker';
