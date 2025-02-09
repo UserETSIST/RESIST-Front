@@ -1,0 +1,6 @@
+#blog-title {
+    background: #1DA5FF;
+    background: linear-gradient(to right, #1DA5FF 0%, #0C2B88 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
