@@ -4,3 +4,7 @@ export const environment = {
     GFR_LINKEDIN: "https://de.linkedin.com/company/dlr-gfr-mbh",
     GFR_YT:"https://www.youtube.com/channel/UCkxoUM-U0YcW7aw_h4gubeA"
 };
+
+export const API_CONFIG = {
+    baseUrl: 'http://backend_api:8000'
+}
