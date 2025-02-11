@@ -1,9 +1,47 @@
-.map-container{
-    height: 400px;
-
-    #map{ 
-        height: 100%; 
-        width: 100%;
-    }
-}
-
+/* Style for the container to center the map */
+.map-container {
+    display: flex;               /* Use Flexbox for centering */
+    justify-content: center;     /* Center horizontally */
+    align-items: center;         /* Center vertically */
+    height: 700px;              /* Full-height container */
+    background-color: #f5f5f5;  /* Light background for contrast */
+    border-radius: 12px;        /* Rounded corners for the box */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border: 1px solid #ddd;     /* Light border around the box */
+    overflow: hidden;
+  }
+  
+  /* Map styling */
+  .jaspr-map {
+    height: 100%;        /* Use the full height of the container */
+    width: 65%;         /* Full width */
+    border-radius: 8px;  /* Rounded corners for the map itself */
+    background-color: #e6e6e6; /* Placeholder background for when the map is loading */
+  }
+  
+  
+  /* Estilos para los controles personalizados de Leaflet */
+  .leaflet-control-custom button {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #333; /* Color del texto */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    border-radius: 4px; /* Bordes redondeados */
+  }
+  
+  .leaflet-control-custom button:hover {
+    background-color: #f0f0f0;
+    border-color: #bbb;
+  }
+  
+  /* Asegurar que los hexágonos y capas SVG del mapa se visualicen correctamente */
+  .hexagon-layer {
+    stroke: #000; /* Color del borde de los hexágonos */
+    stroke-opacity: 0.5;
+    stroke-width: 0.5px;
+    fill-opacity: 0.7; /* Transparencia del relleno de los hexágonos */
+  }
+  

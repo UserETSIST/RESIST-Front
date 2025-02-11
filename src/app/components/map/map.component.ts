@@ -1,29 +1,37 @@
-import { isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { LeafletService } from '../../services/leaflet.service';
-
-
-
+import { MapOptionsComponent } from '../map-options/map-options.component';
 @Component({
   selector: 'app-map',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, MapOptionsComponent],
   templateUrl: './map.component.html',
-  styleUrl: './map.component.css'
+  styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-  
-  constructor(private leafletService: LeafletService) {}
+  private map: any;
+  private L: any;
+
+  constructor(
+    private leafletService: LeafletService,
+    @Inject(PLATFORM_ID) private platformId: Object 
+  ) {}
 
   ngOnInit(): void {
-    this.leafletService.loadLeaflet((leaflet: any) => {
-      // Your custom code here
-      console.log('Leaflet loaded', leaflet);
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.leafletService.loadLeaflet((leaflet: any) => {
+        this.L = leaflet; // Assign Leaflet instance
+        console.log('Leaflet loaded');
+
+        // Initialize the map
+        this.map = this.L.map('map').setView([0, 0], 2);
+
+        this.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 20,
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(this.map);
+      });
+    }
   }
-
-
 }
-
-
-
-
