@@ -1,4 +1,4 @@
-<section class="flex items-center h-60 bg-gray-50 dark:bg-gray-900">
+<section class="flex items-center h-60 bg-white dark:bg-gray-900">
     <div class="w-full max-w-screen-xl px-4 mx-auto lg:px-12">
       <!-- Start coding here -->
       <div class="relative px-4 overflow-hidden bg-white shadow-md dark:bg-gray-800 sm:rounded-lg">
@@ -31,9 +31,16 @@
             </div>
         </div>
         <div class="flex items-center gap-4">
-            <button class="group relative inline-flex h-10 items-center justify-center overflow-hidden rounded-md border border-neutral-200 bg-transparent px-1 font-medium text-neutral-600 transition-all duration-100 [box-shadow:5px_5px_rgb(82_82_82)] active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_rgb(82_82_82)]">Last 7 days</button>
-            <button class="group relative inline-flex h-10 items-center justify-center overflow-hidden rounded-md border border-neutral-200 bg-transparent px-1 font-medium text-neutral-600 transition-all duration-100 [box-shadow:5px_5px_rgb(82_82_82)] active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_rgb(82_82_82)]">Last 30 days</button>
-        </div>
+          <button id="7-days" class="group relative inline-flex h-10 items-center justify-center overflow-hidden rounded-md border border-neutral-200 bg-transparent px-1 font-medium text-neutral-600 transition-all duration-100 [box-shadow:5px_5px_rgb(82_82_82)] active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_rgb(82_82_82)]" (click)="on7DaysClick()">
+            Last 7 days
+          </button>
+          <button id="14-days" class="group relative inline-flex h-10 items-center justify-center overflow-hidden rounded-md border border-neutral-200 bg-transparent px-1 font-medium text-neutral-600 transition-all duration-100 [box-shadow:5px_5px_rgb(82_82_82)] active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_rgb(82_82_82)]" (click)="on14DaysClick()">
+            Last 14 days
+          </button>
+          <button id="30-days" class="group relative inline-flex h-10 items-center justify-center overflow-hidden rounded-md border border-neutral-200 bg-transparent px-1 font-medium text-neutral-600 transition-all duration-100 [box-shadow:5px_5px_rgb(82_82_82)] active:translate-x-[3px] active:translate-y-[3px] active:[box-shadow:0px_0px_rgb(82_82_82)]" (click)="on30DaysClick()" >
+            Last 30 days
+          </button>
+                  </div>
 
 
         </div>
@@ -45,16 +52,17 @@
               Show:
             </div>
             <div class="flex items-center mr-4">
-              <input id="all-products" type="radio" value="" name="show-only"
-                     class="w-4 h-4 bg-gray-100 border-gray-300 text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-              <label for="all-products" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              <input id="jamming" type="checkbox" checked (change)="onCheckboxChange('jamming', $event)"
+                class="w-4 h-4 bg-gray-100 border-gray-300 text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label for="jamming" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                 Jamming
               </label>
             </div>
+            
             <div class="flex items-center mr-4">
-              <input id="sort-category" type="radio" value="" name="show-only"
-                     class="w-4 h-4 bg-gray-100 border-gray-300 text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-              <label for="sort-category" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              <input id="spoofing" type="checkbox" checked (change)="onCheckboxChange('spoofing', $event)"
+                class="w-4 h-4 bg-gray-100 border-gray-300 text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label for="spoofing" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                 Spoofing
               </label>
             </div>

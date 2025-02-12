@@ -1,6 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { LeafletService } from '../../services/leaflet.service';
+import { LeafletService } from '../../../services/leaflet.service';
 import { MapOptionsComponent } from '../map-options/map-options.component';
 @Component({
   selector: 'app-map',

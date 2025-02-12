@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../../page-sections/header/header.component';
 import { FooterComponent } from '../../page-sections/footer/footer.component';
-import { MapComponent } from '../../map/map.component';
+import { MapComponent } from '../../Map/map/map.component';
 
 @Component({
   selector: 'app-product',

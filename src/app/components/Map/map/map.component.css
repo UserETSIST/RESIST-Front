@@ -14,7 +14,7 @@
   /* Map styling */
   .jaspr-map {
     height: 100%;        /* Use the full height of the container */
-    width: 65%;         /* Full width */
+    width: 95%;         /* Full width */
     border-radius: 8px;  /* Rounded corners for the map itself */
     background-color: #e6e6e6; /* Placeholder background for when the map is loading */
   }
