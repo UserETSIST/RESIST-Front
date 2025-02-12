@@ -1,26 +1,27 @@
 import { environment } from '../../../../environments/environment';
 import { RouterLink } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FlowbiteService } from '../../../services/flowbite.service';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent {
 
-  constructor(private flowbiteService: FlowbiteService) {}
+  isMenuOpen: boolean = false;
+
+  constructor() {}
+
 
   GfRLogo = environment.GFR_LOGO;
 
-  ngOnInit(): void {
-    this.flowbiteService.loadFlowbite((flowbite: any) => {
-      // Your custom code here
-      console.log('Flowbite loaded', flowbite);
-    });
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+    console.log('Menu state:', this.isMenuOpen ? 'Opened' : 'Closed');
   }
 
 }

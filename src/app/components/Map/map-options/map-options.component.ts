@@ -1,60 +1,89 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { EventsService } from '../../../services/events.service';
+import { FlowbiteService } from '../../../services/flowbite.service';
+import { DateRangePicker } from 'flowbite-datepicker';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { DatepickerOptions } from 'flowbite';
 
 @Component({
   selector: 'app-map-options',
-  imports: [],
   templateUrl: './map-options.component.html',
-  styleUrl: './map-options.component.css'
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  styleUrls: ['./map-options.component.css']
 })
-export class MapOptionsComponent {
-
+export class MapOptionsComponent implements OnInit, AfterViewInit {
   events: any[] = [];
   filteredEvents: any[] = [];
-  jamming: boolean = false;
-  spoofing: boolean = false;
+  jamming: boolean = true;
+  spoofing: boolean = true;
 
+  constructor(
+    private eventsService: EventsService,
+    private flowbiteService: FlowbiteService,
+    @Inject(PLATFORM_ID) private platformId: Object // Injects the platform (browser/server)
+  ) {}
 
-  constructor (private eventsService: EventsService) {}
+  ngOnInit(): void {
+    this.flowbiteService.loadFlowbite(() => {
+      console.log('Flowbite loaded.');
+    });
+    this.jamming = true;
+    this.spoofing = true;
+  }
 
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const dateRangePickerEl = document.getElementById('date-range-picker');
+      if (dateRangePickerEl) {
+        const options = {
+          format: 'yyyy-mm-dd',
+          rangePicker: true,
+          autohide: false,
+          orientation: 'bottom'
+        };
+        new DateRangePicker(dateRangePickerEl, options);
+        console.log('Date range picker initialized.');
+      } else {
+        console.error('Date picker element not found.');
+      }
+    } else {
+      console.log('Skipping DateRangePicker initialization on the server side.');
+    }
+  }
 
   on7DaysClick(): void {
     this.eventsService.getRecentEvents(7).subscribe({
-      next: (response) => {
+      next: response => {
         console.log('API Response:', response);
-        this.events = response.data; 
+        this.events = response.data;
         this.filterEvents();
       },
-      error: (error) => {
-        console.error('Error fetching recent events:', error);
-      }
+      error: error => console.error('Error fetching recent events:', error)
     });
   }
 
   on14DaysClick(): void {
     this.eventsService.getRecentEvents(14).subscribe({
-      next: (response) => {
+      next: response => {
         console.log('API Response:', response);
-        this.events = response.data;  
+        this.events = response.data;
         this.filterEvents();
       },
-      error: (error) => {
-        console.error('Error fetching recent events:', error);
-      }
+      error: error => console.error('Error fetching recent events:', error)
     });
   }
 
   on30DaysClick(): void {
     this.eventsService.getRecentEvents(30).subscribe({
-      next: (response) => {
+      next: response => {
         console.log('API Response:', response);
-        this.events = response.data;  
-
+        this.events = response.data;
         this.filterEvents();
       },
-      error: (error) => {
-        console.error('Error fetching recent events:', error);
-      }
+      error: error => console.error('Error fetching recent events:', error)
     });
   }
 
@@ -70,22 +99,16 @@ export class MapOptionsComponent {
   }
 
   filterEvents(): void {
+    console.log(`VALORES CHECKBOXES --> SPOOFING: ${this.spoofing}  JAMMING: ${this.jamming}`)
     if (this.jamming && this.spoofing) {
-      // Return events where both jamming and spoofing are true
       this.filteredEvents = this.events;
     } else if (this.jamming) {
-      // Return events where jamming is true
       this.filteredEvents = this.events.filter(event => event.jamming === 1);
     } else if (this.spoofing) {
-      // Return events where spoofing is true
       this.filteredEvents = this.events.filter(event => event.spoofing === 1);
     } else {
-      // Return all events if no filter is applied
       this.filteredEvents = [];
     }
-  
     console.log('Filtered Events:', this.filteredEvents);
   }
-  
-
 }
