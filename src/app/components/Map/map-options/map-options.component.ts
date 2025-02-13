@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Inject, OnInit, Output, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { EventsService } from '../../../services/events.service';
 import { FlowbiteService } from '../../../services/flowbite.service';
@@ -6,6 +6,7 @@ import { DateRangePicker } from 'flowbite-datepicker';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatepickerOptions } from 'flowbite';
+
 
 @Component({
   selector: 'app-map-options',
@@ -15,10 +16,16 @@ import { DatepickerOptions } from 'flowbite';
   styleUrls: ['./map-options.component.css']
 })
 export class MapOptionsComponent implements OnInit, AfterViewInit {
+
+  @Output() filteredEventsChange = new EventEmitter<any[]>(); // Event to emit data
+  
   events: any[] = [];
   filteredEvents: any[] = [];
   jamming: boolean = true;
   spoofing: boolean = true;
+  datepicker: DateRangePicker | undefined;
+
+  
 
   constructor(
     private eventsService: EventsService,
@@ -44,7 +51,7 @@ export class MapOptionsComponent implements OnInit, AfterViewInit {
           autohide: false,
           orientation: 'bottom'
         };
-        new DateRangePicker(dateRangePickerEl, options);
+        this.datepicker = new DateRangePicker(dateRangePickerEl, options);
         console.log('Date range picker initialized.');
       } else {
         console.error('Date picker element not found.');
@@ -88,6 +95,7 @@ export class MapOptionsComponent implements OnInit, AfterViewInit {
   }
 
   onCheckboxChange(filter: string, event: Event): void {
+    console.log("Datepicker Dates:", this.datepicker?.getDates())
     const isChecked = (event.target as HTMLInputElement).checked;
     if (filter === 'jamming') {
       this.jamming = isChecked;
@@ -96,6 +104,10 @@ export class MapOptionsComponent implements OnInit, AfterViewInit {
     }
     this.filterEvents();
     console.log(`Filter ${filter} is now: ${isChecked}`);
+  }
+
+  onDateChange(): void {
+    console.log(`Selected Date Range: ${this.datepicker?.getDates()}`);
   }
 
   filterEvents(): void {
@@ -110,5 +122,6 @@ export class MapOptionsComponent implements OnInit, AfterViewInit {
       this.filteredEvents = [];
     }
     console.log('Filtered Events:', this.filteredEvents);
+    this.filteredEventsChange.emit(this.filteredEvents);
   }
 }
