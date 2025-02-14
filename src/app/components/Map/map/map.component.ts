@@ -104,7 +104,7 @@ export class MapComponent implements OnInit {
       const jamming = event.jamming;      // 1 => jam
       const spoofing = event.spoofing;    // 1 => spoofer
       const strength = event.strength;    // num => fuerza
-      const lastDet = event.lastdetectiontimestamp;
+      const lastDet = event.last_detection;
 
       const lat = this.parseHexToDecimal(latHex);
       const lng = this.parseHexToDecimal(lngHex);
@@ -177,7 +177,6 @@ export class MapComponent implements OnInit {
       const polygonLatLon = this.buildHexPolygon(cell.row, cell.col);
 
       // Creamos la capa en Leaflet
-      console.log("estoy pintando")
       const leafletPolygon = this.L.polygon(polygonLatLon, {
         color: cell.color,
         fillColor: cell.color,
@@ -213,14 +212,14 @@ export class MapComponent implements OnInit {
   private buildPopupContent(events: any[]): string {
     // Ejemplo: listamos la fecha, si es jamming/spoofing, y la fuerza
     // Ajusta el formato a tu gusto
-    let content = `<b>Eventos en este hex:</b><br/>`;
+    let content = `<b>Detected Events</b><br/>`;
     for (const ev of events) {
       const jam = (ev.jamming === 1) ? 'Jammer' : '';
       const spf = (ev.spoofing === 1) ? 'Spoofer' : '';
       const str = ev.strength;
-      const time = ev.lastdetectiontimestamp;
+      const time = ev.last_detection;
       const label = jam || spf || '??';
-      content += `- ${time} => ${label}, strength=${str}<br/>`;
+      content += `Last detected: ${time} | Type: ${label} | strength=${str}<br/>`;
     }
     return content;
   }
