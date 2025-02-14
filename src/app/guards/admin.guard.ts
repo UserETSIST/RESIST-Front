@@ -8,13 +8,13 @@ export const adminGuard: CanActivateFn = (route, state) => {
 
   if (!authService.isAuthenticated()) {
     console.log('User is not authenticated. Redirecting to login.');
-    router.navigate(['/login']);
+    router.navigate(['/403-forbidden']);
     return false;
   }
 
   if (!authService.isAdmin()) {
     console.log('Access denied. Admins only.');
-    router.navigate(['/unauthorized']); // Redirect to unauthorized page
+    router.navigate(['/403-forbidden']); // Redirect to unauthorized page
     return false;
   }
 
