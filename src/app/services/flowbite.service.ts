@@ -1,5 +1,6 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { initFlowbite } from 'flowbite';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class FlowbiteService {
 
   loadFlowbite(callback: (flowbite: any) => void) {
     if (isPlatformBrowser(this.platformId)) {
+      initFlowbite();
       // Check if Flowbite has already been loaded
       if (this.flowbiteInstance) {
         console.log('Flowbite already loaded. Using cached instance.');

@@ -1,36 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { DataTable } from 'simple-datatables';
 import { FlowbiteService } from '../../../../services/flowbite.service';
 
 @Component({
   selector: 'app-users-table',
-  imports: [],
   templateUrl: './users-table.component.html',
-  styleUrl: './users-table.component.css'
+  styleUrls: ['./users-table.component.css']
 })
-export class UsersTableComponent implements OnInit{
+export class UsersTableComponent implements AfterViewInit, OnDestroy {
+  private dataTable: DataTable | null = null;
 
-  constructor(
-        private flowbiteService: FlowbiteService,
-  ){};
+  constructor(private flowbiteService: FlowbiteService) {}
 
-
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.flowbiteService.loadFlowbite(() => {
-
-      if (document.getElementById("pagination-table") && typeof DataTable !== 'undefined') {
-        const dataTable = new DataTable("#pagination-table", {
-            paging: true,
-            perPage: 5,
-            perPageSelect: [5, 10, 15, 20, 25],
-            sortable: false
-        });
+      const tableElement = document.getElementById('pagination-table');
+      if (tableElement) {
+        this.initializeDataTable();
+        console.log('DataTable initialized after Flowbite.');
       }
-      console.log('Flowbite loaded.');
     });
-  
   }
 
+  ngOnDestroy(): void {
+    if (this.dataTable) {
+      this.dataTable.destroy(); // Clean up the DataTable instance
+      this.dataTable = null;
+      console.log('DataTable destroyed.');
+    }
+  }
 
-
+  private initializeDataTable(): void {
+    this.dataTable = new DataTable("#pagination-table", {
+      paging: true,
+      perPage: 5,
+      perPageSelect: [5, 10, 15, 20, 25],
+      sortable: false
+    });
+  }
 }
