@@ -5,7 +5,8 @@ import { FlowbiteService } from '../../../services/flowbite.service';
 import { DateRangePicker } from 'flowbite-datepicker';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DatepickerOptions } from 'flowbite';
+import { DatepickerOptions, initFlowbite } from 'flowbite';
+import { Datepicker } from 'flowbite-datepicker';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { DatepickerOptions } from 'flowbite';
   imports: [CommonModule, FormsModule],
   styleUrls: ['./map-options.component.css']
 })
-export class MapOptionsComponent implements OnInit, AfterViewInit {
+export class MapOptionsComponent implements AfterViewInit, OnInit{
 
   @Output() filteredEventsChange = new EventEmitter<any[]>(); // Event to emit data
   
@@ -30,36 +31,61 @@ export class MapOptionsComponent implements OnInit, AfterViewInit {
   constructor(
     private eventsService: EventsService,
     private flowbiteService: FlowbiteService,
-    @Inject(PLATFORM_ID) private platformId: Object // Injects the platform (browser/server)
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: any,
+    ) {}
 
   ngOnInit(): void {
-    this.flowbiteService.loadFlowbite(() => {
-      console.log('Flowbite loaded.');
-    });
+
+    if (isPlatformBrowser(this.platformId)) {
+      // First, load Flowbite
+      this.flowbiteService.loadFlowbite((flowbite) => {
+        // Then load Flowbite DateRangePicker
+        this.flowbiteService.loadFlowbiteDateRangePicker((flowbiteDateRangePicker) => {
+          const datepickerEl = document.getElementById('date-range-picker');
+          if (datepickerEl) {
+            const options = {
+              format: 'yyyy-mm-dd',
+              rangePicker: true,
+              autohide: false,
+              orientation: 'bottom'
+            };
+            // Instantiate the DateRangePicker from the flowbite-datepicker module
+            this.datepicker = new flowbiteDateRangePicker.DateRangePicker(datepickerEl, options);
+          }
+        });
+      });
+    }
+    
     this.jamming = true;
     this.spoofing = true;
   }
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const dateRangePickerEl = document.getElementById('date-range-picker');
-      if (dateRangePickerEl) {
-        const options = {
-          format: 'yyyy-mm-dd',
-          rangePicker: true,
-          autohide: false,
-          orientation: 'bottom'
-        };
-        this.datepicker = new DateRangePicker(dateRangePickerEl, options);
-        console.log('Date range picker initialized.');
-      } else {
-        console.error('Date picker element not found.');
-      }
-    } else {
-      console.log('Skipping DateRangePicker initialization on the server side.');
+      // First, load Flowbite
+      this.flowbiteService.loadFlowbite((flowbite) => {
+        // Then load Flowbite DateRangePicker
+        this.flowbiteService.loadFlowbiteDateRangePicker((flowbiteDateRangePicker) => {
+          const datepickerEl = document.getElementById('date-range-picker');
+          if (datepickerEl) {
+            const options = {
+              format: 'yyyy-mm-dd',
+              rangePicker: true,
+              autohide: false,
+              orientation: 'bottom',
+              onSelect: (selectedDates: any) => {
+                console.log('Selected dates:', selectedDates);
+                this.onDateChange();
+              }
+            };
+            // Instantiate the DateRangePicker from the flowbite-datepicker module
+            this.datepicker = new flowbiteDateRangePicker.DateRangePicker(datepickerEl, options);
+          }
+        });
+      });
     }
   }
+  
 
   on7DaysClick(): void {
     this.eventsService.getRecentEvents(7).subscribe({

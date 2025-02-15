@@ -1,7 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
+/* @import "../node_modules/flowbite/src/themes/default.css"; */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* @source "../node_modules/flowbite"; 
+@plugin "flowbite/plugin"; */
 
-@source "../node_modules/flowbite";
-@plugin "flowbite/plugin";
-/* @import "../node_modules/flowbite/dist/flowbite.css"; */

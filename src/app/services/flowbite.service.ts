@@ -6,26 +6,34 @@ import { initFlowbite } from 'flowbite';
   providedIn: 'root'
 })
 export class FlowbiteService {
-  private flowbiteInstance: any = null;  // Cache the loaded instance
 
   constructor(@Inject(PLATFORM_ID) private platformId: any) {}
 
-  loadFlowbite(callback: (flowbite: any) => void) {
+  loadFlowbite(callback: (flowbite: Awaited<typeof import('flowbite')>) => void) {
     if (isPlatformBrowser(this.platformId)) {
-      initFlowbite();
-      // Check if Flowbite has already been loaded
-      if (this.flowbiteInstance) {
-        console.log('Flowbite already loaded. Using cached instance.');
-        callback(this.flowbiteInstance); // Use the cached instance
-      } else {
-        import('flowbite').then(flowbite => {
-          this.flowbiteInstance = flowbite;  // Cache the instance for future use
-          callback(flowbite);
-        }).catch(error => {
+      import('flowbite')
+        .then((flowbiteModule) => {
+          console.log("flowbite imported", flowbiteModule);
+          // Call the initialization from the module if available
+          if (typeof flowbiteModule.initFlowbite === 'function') {
+            flowbiteModule.initFlowbite();
+          }
+          callback(flowbiteModule);
+        })
+        .catch((error) => {
           console.error('Failed to load Flowbite:', error);
         });
+    }
+  }
+  
 
-      }
+
+  loadFlowbiteDateRangePicker(callback: (flowbite: Awaited<typeof import('flowbite-datepicker')>)=> void) {
+    if (isPlatformBrowser(this.platformId)) {
+        import('flowbite-datepicker').then(flowbiteDateRangePicker => {
+          console.log("imported date-range-picker", flowbiteDateRangePicker)
+          callback(flowbiteDateRangePicker);
+        })
     }
   }
 }
