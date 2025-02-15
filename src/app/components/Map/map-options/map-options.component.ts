@@ -46,11 +46,19 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
             const options = {
               format: 'yyyy-mm-dd',
               rangePicker: true,
-              autohide: false,
-              orientation: 'bottom'
+              autohide: true,
+              clearButton: true,
+              todayButton: true,
+              orientation: 'bottom',
+              onSelect: (selectedDates: any) => {
+                // Now the internal state is updated.
+                console.log('onSelect callback:', this.datepicker?.getDates());
+                this.onInputTouched();
+              }
             };
             // Instantiate the DateRangePicker from the flowbite-datepicker module
             this.datepicker = new flowbiteDateRangePicker.DateRangePicker(datepickerEl, options);
+            console.log("INSTANCIA: ", this.datepicker );
           }
         });
       });
@@ -71,12 +79,16 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
             const options = {
               format: 'yyyy-mm-dd',
               rangePicker: true,
-              autohide: false,
+              autohide: true,
+              clearButton: true,
+              todayButton: true,
               orientation: 'bottom',
               onSelect: (selectedDates: any) => {
-                console.log('Selected dates:', selectedDates);
-                this.onDateChange();
+                // Now the internal state is updated.
+                console.log('onSelect callback:', this.datepicker?.getDates());
+                this.onInputTouched();
               }
+              
             };
             // Instantiate the DateRangePicker from the flowbite-datepicker module
             this.datepicker = new flowbiteDateRangePicker.DateRangePicker(datepickerEl, options);
@@ -132,8 +144,11 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
     console.log(`Filter ${filter} is now: ${isChecked}`);
   }
 
-  onDateChange(): void {
-    console.log(`Selected Date Range: ${this.datepicker?.getDates()}`);
+  
+
+   onInputTouched(): void {
+    console.log("Fechas Seleccionadas:", this.datepicker?.getDates())
+    console.log("Start Date: ", this.formatDate(new Date(this.datepicker!.getDates()[0]!)), "End Date: ", this.formatDate(new Date(this.datepicker!.getDates()[1]!)))
   }
 
   filterEvents(): void {
@@ -149,5 +164,16 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
     }
     console.log('Filtered Events:', this.filteredEvents);
     this.filteredEventsChange.emit(this.filteredEvents);
+  }
+
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    // Months are 0-based, so add 1 and pad with a leading zero if needed
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
 }
