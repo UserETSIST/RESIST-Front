@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatepickerOptions, initFlowbite } from 'flowbite';
 import { Datepicker } from 'flowbite-datepicker';
+import { Modal } from 'flowbite';
+import type { ModalOptions, ModalInterface } from 'flowbite';
 
 
 @Component({
@@ -25,6 +27,8 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
   jamming: boolean = true;
   spoofing: boolean = true;
   datepicker: DateRangePicker | undefined;
+  startDate: String = "";
+  endDate: String = "";
 
   
 
@@ -32,7 +36,14 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
     private eventsService: EventsService,
     private flowbiteService: FlowbiteService,
     @Inject(PLATFORM_ID) private platformId: any,
-    ) {}
+    ) {
+      const endDate = new Date(); // Today
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 7); // 7 days ago
+
+      this.endDate = this.formatDate(endDate);
+      this.startDate = this.formatDate(startDate);
+    }
 
   ngOnInit(): void {
 
@@ -58,9 +69,20 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
             };
             // Instantiate the DateRangePicker from the flowbite-datepicker module
             this.datepicker = new flowbiteDateRangePicker.DateRangePicker(datepickerEl, options);
-            console.log("INSTANCIA: ", this.datepicker );
           }
         });
+
+        const modalElement: HTMLElement = document.querySelector('#popup-modal')!;
+        const modalOptions: ModalOptions = {
+          placement: 'center-left',
+          backdrop: 'dynamic',
+          backdropClasses:
+              'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+          closable: true,
+      };
+
+         const modal: ModalInterface = new Modal(modalElement, modalOptions);
+
       });
     }
     
@@ -88,48 +110,80 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
                 console.log('onSelect callback:', this.datepicker?.getDates());
                 this.onInputTouched();
               }
-              
             };
             // Instantiate the DateRangePicker from the flowbite-datepicker module
             this.datepicker = new flowbiteDateRangePicker.DateRangePicker(datepickerEl, options);
           }
         });
+
+        const modalElement: HTMLElement = document.querySelector('#popup-modal')!;
+        const modalOptions: ModalOptions = {
+          placement: 'center-left',
+          backdrop: 'dynamic',
+          backdropClasses:
+              'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+          closable: true,
+      };
+
+         const modal: ModalInterface = new Modal(modalElement, modalOptions);
+
       });
     }
   }
   
 
   on7DaysClick(): void {
-    this.eventsService.getRecentEvents(7).subscribe({
-      next: response => {
-        console.log('API Response:', response);
-        this.events = response.data;
-        this.filterEvents();
-      },
-      error: error => console.error('Error fetching recent events:', error)
-    });
+      const endDate = new Date(); // Today
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 7); // 7 days ago
+
+      this.endDate = this.formatDate(endDate);
+      this.startDate = this.formatDate(startDate);
+
+    // this.eventsService.getRecentEvents(7).subscribe({
+    //   next: response => {
+    //     // console.log('API Response:', response);
+    //     this.events = response.data;
+    //     this.filterEvents();
+    //   },
+    //   error: error => console.error('Error fetching recent events:', error)
+    // });
   }
 
   on14DaysClick(): void {
-    this.eventsService.getRecentEvents(14).subscribe({
-      next: response => {
-        console.log('API Response:', response);
-        this.events = response.data;
-        this.filterEvents();
-      },
-      error: error => console.error('Error fetching recent events:', error)
-    });
+
+    const endDate = new Date(); // Today
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 14); // 7 days ago
+
+      this.endDate = this.formatDate(endDate);
+      this.startDate = this.formatDate(startDate);
+    // this.eventsService.getRecentEvents(14).subscribe({
+    //   next: response => {
+    //     // console.log('API Response:', response);
+    //     this.events = response.data;
+    //     this.filterEvents();
+    //   },
+    //   error: error => console.error('Error fetching recent events:', error)
+    // });
   }
 
   on30DaysClick(): void {
-    this.eventsService.getRecentEvents(30).subscribe({
-      next: response => {
-        console.log('API Response:', response);
-        this.events = response.data;
-        this.filterEvents();
-      },
-      error: error => console.error('Error fetching recent events:', error)
-    });
+
+      const endDate = new Date(); // Today
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 30); // 7 days ago
+
+      this.endDate = this.formatDate(endDate);
+      this.startDate = this.formatDate(startDate);
+    // this.eventsService.getRecentEvents(30).subscribe({
+    //   next: response => {
+    //     // console.log('API Response:', response);
+    //     this.events = response.data;
+    //     this.filterEvents();
+    //   },
+    //   error: error => console.error('Error fetching recent events:', error)
+    // });
   }
 
   onCheckboxChange(filter: string, event: Event): void {
@@ -141,14 +195,38 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
       this.spoofing = isChecked;
     }
     this.filterEvents();
-    console.log(`Filter ${filter} is now: ${isChecked}`);
+    // console.log(`Filter ${filter} is now: ${isChecked}`);
+  }
+
+
+  onInputChange(event: Event): void {
+    // Cast event.target to HTMLInputElement to access the value property
+    const inputValue = (event.target as HTMLInputElement).value;
+    console.log('Input value changed:', inputValue);
   }
 
   
 
    onInputTouched(): void {
-    console.log("Fechas Seleccionadas:", this.datepicker?.getDates())
-    console.log("Start Date: ", this.formatDate(new Date(this.datepicker!.getDates()[0]!)), "End Date: ", this.formatDate(new Date(this.datepicker!.getDates()[1]!)))
+     this.startDate = this.formatDate(new Date(this.datepicker!.getDates()[0]!));
+     this.endDate = this.formatDate(new Date(this.datepicker!.getDates()[1]!));
+
+
+    // const startDate = this.formatDate(new Date(this.datepicker!.getDates()[0]!));
+    // const endDate = this.formatDate(new Date(this.datepicker!.getDates()[1]!));
+    console.log("LO TOCOOOO");
+    console.log(this.datepicker?.getDates());
+
+    // this.eventsService.getEventsOnRange(this.startDate, this.endDate, this.jamming, this.spoofing).subscribe({
+    //   next: response => {
+    //     this.events = response.data;
+    //     this.filterEvents();
+    //   },
+    //   error: error => console.error('Error fetching recent events:', error)
+    // });
+    // console.log("Fechas Seleccionadas:", this.datepicker?.getDates())
+    // console.log("Start Date: ", this.formatDate(new Date(this.datepicker!.getDates()[0]!)), "End Date: ", this.formatDate(new Date(this.datepicker!.getDates()[1]!)))
+
   }
 
   filterEvents(): void {
@@ -162,7 +240,7 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
     } else {
       this.filteredEvents = [];
     }
-    console.log('Filtered Events:', this.filteredEvents);
+    // console.log('Filtered Events:', this.filteredEvents);
     this.filteredEventsChange.emit(this.filteredEvents);
   }
 
@@ -175,5 +253,16 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
     const minutes = date.getMinutes().toString().padStart(2, '0');
     const seconds = date.getSeconds().toString().padStart(2, '0');
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+
+  onFilterConfirmed(): void {
+    this.eventsService.getEventsOnRange(this.startDate, this.endDate, this.jamming, this.spoofing).subscribe({
+        next: response => {
+          this.events = response.data;
+          this.filterEvents();
+        },
+        error: error => console.error('Error fetching recent events:', error)
+      });
+
   }
 }

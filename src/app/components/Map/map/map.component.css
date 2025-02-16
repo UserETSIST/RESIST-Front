@@ -1,23 +1,26 @@
-/* Style for the container to center the map */
 .map-container {
-    display: flex;               /* Use Flexbox for centering */
-    justify-content: center;     /* Center horizontally */
-    align-items: center;         /* Center vertically */
-    height: 500px;              /* Full-height container */
-    background-color: #f5f5f5;  /* Light background for contrast */
-    border-radius: 12px;        /* Rounded corners for the box */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    border: 1px solid #ddd;     /* Light border around the box */
-    overflow: hidden;
-  }
-  
-  /* Map styling */
-  .jaspr-map {
-    height: 100%;        /* Use the full height of the container */
-    width: 95%;         /* Full width */
-    border-radius: 8px;  /* Rounded corners for the map itself */
-    background-color: #e6e6e6; /* Placeholder background for when the map is loading */
-  }
+  position: relative; /* Create a stacking context */
+  z-index: 1;         /* Low z-index */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  overflow: hidden;
+}
+
+/* Map styling */
+.jaspr-map {
+  position: relative; /* Ensure z-index works */
+  z-index: 1;         /* Low z-index */
+  height: 100%;
+  width: 95%;
+  border-radius: 8px;
+  background-color: #e6e6e6;
+}
   
   
   /* Estilos para los controles personalizados de Leaflet */

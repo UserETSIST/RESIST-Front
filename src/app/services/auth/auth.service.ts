@@ -1,9 +1,9 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { throwError, Observable } from 'rxjs';
-import { API_CONFIG } from '../../../environments/environment';
+import { API_CONFIG, TOKEN } from '../../../environments/environment';
 import { API_ENDPOINTS } from '../../../environments/api-endpoints';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -12,6 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AuthService {
   private apiUrl = API_CONFIG.baseUrl;
+  private tokenExpirationTimer: any;
 
   constructor(
     private http: HttpClient,
@@ -26,14 +27,26 @@ export class AuthService {
    * @param password User password
    */
   login(email: string, password: string): Observable<void> {
-    return this.http.post<{ access_token: string; token_type: string; is_admin: boolean }>(
-      `${this.apiUrl}${API_ENDPOINTS.AUTH.LOGIN}`,
-      { email, password }
-    ).pipe(
-      catchError(this.handleError),
-      this.handleLoginResponse()
-    );
+    return this.http
+      .post<{ access_token: string; token_type: string; is_admin: boolean }>(
+        `${this.apiUrl}${API_ENDPOINTS.AUTH.LOGIN}`,
+        { email, password }
+      )
+      .pipe(
+        // When login is successful, set the token expiration and start the logout timer
+        tap(response => {
+          if (isPlatformBrowser(this.platformId)) {
+            const expirationDuration = TOKEN.EXPIRATION_TIME_ms;
+            const expirationDate = new Date(Date.now() + expirationDuration);
+            localStorage.setItem('token_expiration', expirationDate.toString());
+            this.startLogoutTimer(expirationDuration);
+          }
+        }),
+        catchError(this.handleError),
+        this.handleLoginResponse()
+      );
   }
+  
 
   /**
    * Saves the token and is_admin flag to localStorage if running in the browser.
@@ -110,6 +123,11 @@ export class AuthService {
         console.error('No token found for logout');
         this.router.navigate(['/login']);
       }
+
+      if (this.tokenExpirationTimer) {
+        clearTimeout(this.tokenExpirationTimer);
+      }
+      this.clearSession();
     }
   }
 
@@ -119,5 +137,11 @@ export class AuthService {
       localStorage.removeItem('is_admin');
       localStorage.removeItem('token_type');
     }
+  }
+
+  startLogoutTimer(duration: number): void {
+    this.tokenExpirationTimer = setTimeout(() => {
+      this.logout();
+    }, duration);
   }
 }

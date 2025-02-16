@@ -8,3 +8,7 @@ export const environment = {
 export const API_CONFIG = {
     baseUrl: 'http://backend_api:8000'
 };
+
+export const TOKEN = {
+    EXPIRATION_TIME_ms: 60 * 60 * 1000
+}
