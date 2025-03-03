@@ -18,7 +18,7 @@ import type { ModalOptions, ModalInterface } from 'flowbite';
   imports: [CommonModule, FormsModule],
   styleUrls: ['./map-options.component.css']
 })
-export class MapOptionsComponent implements AfterViewInit, OnInit{
+export class MapOptionsComponent implements AfterViewInit{
 
   @Output() filteredEventsChange = new EventEmitter<any[]>(); // Event to emit data
   
@@ -45,50 +45,50 @@ export class MapOptionsComponent implements AfterViewInit, OnInit{
       this.startDate = this.formatDate(startDate);
     }
 
-  ngOnInit(): void {
+  // ngOnInit(): void {
 
-    if (isPlatformBrowser(this.platformId)) {
-      // First, load Flowbite
-      this.flowbiteService.loadFlowbite((flowbite) => {
-        // Then load Flowbite DateRangePicker
-        this.flowbiteService.loadFlowbiteDateRangePicker((flowbiteDateRangePicker) => {
-          const datepickerEl = document.getElementById('date-range-picker');
-          if (datepickerEl) {
-            const options = {
-              format: 'yyyy-mm-dd',
-              rangePicker: true,
-              autohide: true,
-              clearButton: true,
-              todayButton: true,
-              orientation: 'bottom',
-              onSelect: (selectedDates: any) => {
-                // Now the internal state is updated.
-                console.log('onSelect callback:', this.datepicker?.getDates());
-                this.onInputTouched();
-              }
-            };
-            // Instantiate the DateRangePicker from the flowbite-datepicker module
-            this.datepicker = new flowbiteDateRangePicker.DateRangePicker(datepickerEl, options);
-          }
-        });
+  //   if (isPlatformBrowser(this.platformId)) {
+  //     // First, load Flowbite
+  //     this.flowbiteService.loadFlowbite((flowbite) => {
+  //       // Then load Flowbite DateRangePicker
+  //       this.flowbiteService.loadFlowbiteDateRangePicker((flowbiteDateRangePicker) => {
+  //         const datepickerEl = document.getElementById('date-range-picker');
+  //         if (datepickerEl) {
+  //           const options = {
+  //             format: 'yyyy-mm-dd',
+  //             rangePicker: true,
+  //             autohide: true,
+  //             clearButton: true,
+  //             todayButton: true,
+  //             orientation: 'bottom',
+  //             onSelect: (selectedDates: any) => {
+  //               // Now the internal state is updated.
+  //               console.log('onSelect callback:', this.datepicker?.getDates());
+  //               this.onInputTouched();
+  //             }
+  //           };
+  //           // Instantiate the DateRangePicker from the flowbite-datepicker module
+  //           this.datepicker = new flowbiteDateRangePicker.DateRangePicker(datepickerEl, options);
+  //         }
+  //       });
 
-        const modalElement: HTMLElement = document.querySelector('#popup-modal')!;
-        const modalOptions: ModalOptions = {
-          placement: 'center-left',
-          backdrop: 'dynamic',
-          backdropClasses:
-              'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
-          closable: true,
-      };
+  //       const modalElement: HTMLElement = document.querySelector('#popup-modal')!;
+  //       const modalOptions: ModalOptions = {
+  //         placement: 'center-left',
+  //         backdrop: 'dynamic',
+  //         backdropClasses:
+  //             'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
+  //         closable: true,
+  //     };
 
-         const modal: ModalInterface = new Modal(modalElement, modalOptions);
+  //        const modal: ModalInterface = new Modal(modalElement, modalOptions);
 
-      });
-    }
+  //     });
+  //   }
     
-    this.jamming = true;
-    this.spoofing = true;
-  }
+  //   this.jamming = true;
+  //   this.spoofing = true;
+  // }
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {

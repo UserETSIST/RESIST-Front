@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { DataTable } from 'simple-datatables';
-import { FlowbiteService } from '../../../../services/flowbite.service';
+import { FlowbiteService } from '../../../services/flowbite.service';
 import { initFlowbite } from 'flowbite';
 
 @Component({

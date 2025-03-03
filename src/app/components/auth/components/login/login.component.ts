@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../../services/auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import { HeaderComponent } from '../../../page-sections/header/header.component';
 import { FooterComponent } from '../../../page-sections/footer/footer.component';
@@ -10,7 +10,7 @@ import { FormsUtilitiesService } from '../../../../services/forms-utilities.serv
 
 @Component({
   selector: 'app-login',
-  imports: [HeaderComponent, FooterComponent, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [HeaderComponent, FooterComponent, CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })

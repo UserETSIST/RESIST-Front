@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../../../page-sections/header/header.component';
+import { HeaderComponent } from '../../../components/page-sections/header/header.component';
 import { UsersTableComponent } from '../users-table/users-table.component';
 
 @Component({

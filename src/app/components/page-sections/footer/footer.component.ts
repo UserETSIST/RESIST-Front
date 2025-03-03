@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NewsletterService } from '../../../services/newsletter.service';
 import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -23,7 +23,7 @@ export class FooterComponent {
 
 
 
-  constructor(private newsletterService: NewsletterService) {}
+  constructor(private newsletterService: NewsletterService ) {}
 
   onSubscribe(): void {
     if (this.subscribeToNewsLetterForm.valid) {
@@ -53,6 +53,8 @@ export class FooterComponent {
   }
 
 
+
+
   forbiddenCodeValidator(control: AbstractControl): ValidationErrors | null {
     const forbiddenPatterns = [
       /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,  // Detecta etiquetas <script>
@@ -68,5 +70,7 @@ export class FooterComponent {
   
     return null;  
   }
+
+
 
 }

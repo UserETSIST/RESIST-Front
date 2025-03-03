@@ -42,7 +42,7 @@ export class AuthService {
             this.startLogoutTimer(expirationDuration);
           }
         }),
-        catchError(this.handleError),
+        catchError(this.loginHandleError),
         this.handleLoginResponse()
       );
   }
@@ -71,12 +71,32 @@ export class AuthService {
       });
   }
 
+
+
+  forgotPassword(email: string): Observable<{ success: Boolean; message: string; reset_password_token?: string; email?: string }> {
+    const url = `${this.apiUrl}${API_ENDPOINTS.AUTH.FORGOT_PASSWORD}`;
+
+    return this.http.post<{  success: Boolean; message: string; reset_password_token?: string; email?: string }>(url, { email }).pipe(
+      catchError(this.forgotPasswordHandleError)
+    );
+  }
+
+
   /**
    * Error handler for login requests.
    */
-  private handleError(error: HttpErrorResponse): Observable<never> {
+  private loginHandleError(error: HttpErrorResponse): Observable<never> {
     console.error('Login failed:', error.message);
     return throwError(() => new Error('Login failed. Please check your email and password.'));
+  }
+
+  /**
+   * Error handler for forgot password requests.
+   */
+
+  private forgotPasswordHandleError(error: HttpErrorResponse): Observable<never> {
+    console.error('Password reset request failed:', error.message);
+    return throwError(() => new Error('Failed to send password reset email. Please try again.'));
   }
 
   getToken(): string | null {
@@ -87,8 +107,9 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    return Boolean(this.getToken());
   }
+  
 
   isAdmin(): boolean {
     if (isPlatformBrowser(this.platformId)) {
@@ -144,4 +165,7 @@ export class AuthService {
       this.logout();
     }, duration);
   }
+
+
+
 }

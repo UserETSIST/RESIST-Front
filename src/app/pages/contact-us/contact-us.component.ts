@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../../page-sections/header/header.component';
-import { FooterComponent } from '../../page-sections/footer/footer.component';
+import { HeaderComponent } from '../../components/page-sections/header/header.component';
+import { FooterComponent } from '../../components/page-sections/footer/footer.component';
 
 @Component({
   selector: 'app-contact-us',
