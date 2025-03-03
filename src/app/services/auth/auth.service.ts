@@ -81,12 +81,36 @@ export class AuthService {
     );
   }
 
+  resetPassword(password: string, password_confirmation: string): Observable<{ success: boolean; message: string }> {
+    const url = `${this.apiUrl}${API_ENDPOINTS.AUTH.RESET_PASSWORD}`;
+    const email = sessionStorage.getItem('email');
+    const token = sessionStorage.getItem('reset_password_token');
+
+    const payload = {
+        email,
+        password,
+        token,
+        password_confirmation
+    };
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+  });
+
+    return this.http.post<{ success: boolean; message: string }>(url, payload, { headers }).pipe(
+        catchError((error: any) => {
+            console.error('Error resetting password:', error);
+            return throwError(() => new Error(error));
+        })
+    );
+}
+
+
 
   /**
    * Error handler for login requests.
    */
   private loginHandleError(error: HttpErrorResponse): Observable<never> {
-    console.error('Login failed:', error.message);
     return throwError(() => new Error('Login failed. Please check your email and password.'));
   }
 
@@ -95,7 +119,6 @@ export class AuthService {
    */
 
   private forgotPasswordHandleError(error: HttpErrorResponse): Observable<never> {
-    console.error('Password reset request failed:', error.message);
     return throwError(() => new Error('Failed to send password reset email. Please try again.'));
   }
 

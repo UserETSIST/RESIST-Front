@@ -41,7 +41,7 @@ export class RequestResetPasswordComponent {
             timer: 3000
           });
           sessionStorage.setItem('email',response.email!);
-          sessionStorage.setItem('reset_passsword_token', response.reset_password_token!)
+          sessionStorage.setItem('reset_password_token', response.reset_password_token!)
           this.router.navigate(['/reset-password']);
 
         } else {
@@ -65,11 +65,6 @@ export class RequestResetPasswordComponent {
         });
       }
     });
-
-
-
-
-    
   }
 }
 
