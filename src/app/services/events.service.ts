@@ -35,7 +35,6 @@ export class EventsService {
       'spoofing': spoofing
     };
 
-    console.log("Body",body, "Headers: ", headers);
 
 
     return this.http.post(`${this.baseUrl}${API_ENDPOINTS.EVENTS.FILTERED_EVENTS}`, body, {headers});

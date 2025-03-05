@@ -14,10 +14,6 @@ export class FlowbiteService {
       import('flowbite')
         .then((flowbiteModule) => {
           console.log("flowbite imported", flowbiteModule);
-          // Call the initialization from the module if available
-          if (typeof flowbiteModule.initFlowbite === 'function') {
-            flowbiteModule.initFlowbite();
-          }
           callback(flowbiteModule);
         })
         .catch((error) => {

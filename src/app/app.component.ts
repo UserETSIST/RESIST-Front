@@ -4,6 +4,7 @@ import { HeaderComponent } from './components/page-sections/header/header.compon
 import { FooterComponent } from './components/page-sections/footer/footer.component';
 import { FlowbiteService } from './services/flowbite.service';
 import { initFlowbite } from 'flowbite';
+import { INITIAL_CONFIG } from '@angular/platform-server';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   constructor(private flowbiteService: FlowbiteService) {}
 
   ngOnInit(): void {
+    initFlowbite();
     console.log('AppComponent initialized');
     
   }
