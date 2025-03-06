@@ -408,7 +408,7 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="#">
+            <form [formGroup]="createUserForm" (ngSubmit)="createNewUser()">
                 <div class="grid gap-4 mb-4 sm:grid-cols-2">
                     <div class="sm:col-span-2">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -429,23 +429,50 @@
                     <div>
                         <label for="first-name"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                        <input type="text" name="first-name" id="first-name"
+                        <input formControlName="first_name" type="text" name="first-name" id="first-name"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="John" required="">
+                        <div *ngIf="createUserForm.get('first_name')?.invalid && (createUserForm.get('first_name')?.dirty || createUserForm.get('first_name')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div *ngIf="createUserForm.get('first_name')?.errors?.['required']">
+                                First name is required.
+                            </div>
+                            <div *ngIf="createUserForm.get('first_name')?.errors?.['minlength']">
+                                First name must be at least 2 characters long.
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <label for="last-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
                             Name</label>
-                        <input type="text" name="last-name" id="last-name"
+                        <input formControlName="last_name" type="text" name="last-name" id="last-name"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Doe" required="">
+                        <div *ngIf="createUserForm.get('last_name')?.invalid && (createUserForm.get('last_name')?.dirty || createUserForm.get('last_name')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div *ngIf="createUserForm.get('last_name')?.errors?.['required']">
+                                Last name is required.
+                            </div>
+                            <div *ngIf="createUserForm.get('last_name')?.errors?.['minlength']">
+                                Last name must be at least 2 characters long.
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <label for="email"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                        <input type="email" name="email" id="email"
+                        <input formControlName="email" type="email" name="email" id="email"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="name&#64;company.com" required="">
+                        <div *ngIf="createUserForm.get('email')?.invalid && (createUserForm.get('email')?.dirty || createUserForm.get('email')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div *ngIf="createUserForm.get('email')?.errors?.['required']">
+                                Email is required.
+                            </div>
+                            <div *ngIf="createUserForm.get('email')?.errors?.['email']">
+                                Enter a valid email address.
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <label for="user-permissions"
@@ -469,32 +496,53 @@
                                 <div class="tooltip-arrow" data-popper-arrow=""></div>
                             </div>
                         </label>
-                        <select id="user-permissions"
+                        <select formControlName="permissions" id="user-permissions"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option selected="Administrator">Administrator</option>
+                            <option value="Administrator">Administrator</option>
                             <option value="Viewer">Viewer</option>
                         </select>
                     </div>
                     <div>
                         <label for="password"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                        <input type="password" name="password" id="password"
+                        <input formControlName="password" type="password" name="password" id="password"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="•••••••••" required="">
+                            placeholder="•••••••••">
+                        <div *ngIf="createUserForm.get('password')?.invalid && (createUserForm.get('password')?.dirty || createUserForm.get('password')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div *ngIf="createUserForm.get('password')?.errors?.['required']">
+                                Password is required.
+                            </div>
+                            <div *ngIf="createUserForm.get('password')?.errors?.['minlength']">
+                                Password must be at least 8 characters long.
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <label for="confirm-password"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm
                             password</label>
-                        <input type="password" name="confirm-password" id="confirm-password"
+                        <input formControlName="password_confirmation" type="password" name="confirm-password"
+                            id="confirm-password"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="•••••••••" required="">
+                            placeholder="•••••••••">
+                        <div *ngIf="createUserForm.get('password_confirmation')?.invalid && (createUserForm.get('password_confirmation')?.dirty || createUserForm.get('password_confirmation')?.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            <div *ngIf="createUserForm.get('password_confirmation')?.errors?.['required']">
+                                Password confirmation is required.
+                            </div>
+                        </div>
+                        <div *ngIf="createUserForm.errors?.['passwordsMismatch'] && (createUserForm.dirty || createUserForm.touched)"
+                            class="text-red-500 text-xs mt-1">
+                            Passwords do not match.
+                        </div>
                     </div>
 
                     <div>
                         <div class="mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</div>
                         <label for="user-status" class="inline-flex relative items-center cursor-pointer">
-                            <input type="checkbox" value="" id="user-status" name="user-status" class="sr-only peer">
+                            <input formControlName="status" type="checkbox" id="user-status" name="user-status"
+                                class="sr-only peer">
                             <div
                                 class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600">
                             </div>
@@ -503,8 +551,10 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button type="submit"
-                        class="w-full text-white inline-flex items-center justify-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    <button [disabled]="createUserForm.invalid" type="submit" class="w-full text-white inline-flex items-center justify-center
+                         bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none
+                          focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
+                           dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-50">
                         <svg class="-ml-1 w-5 h-5 sm:mr-1" fill="currentColor" viewbox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -517,6 +567,10 @@
                         class="w-full inline-flex justify-center text-gray-500 items-center bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Discard</button>
                 </div>
             </form>
+
+
+
+
         </div>
     </div>
 </div>

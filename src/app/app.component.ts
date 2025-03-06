@@ -20,8 +20,9 @@ export class AppComponent implements OnInit {
   constructor(private flowbiteService: FlowbiteService) {}
 
   ngOnInit(): void {
-    initFlowbite();
-    console.log('AppComponent initialized');
+    this.flowbiteService.loadFlowbite(() => {
+      initFlowbite();
+    });
     
   }
 }

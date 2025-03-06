@@ -83,8 +83,8 @@ export class AuthService {
 
   resetPassword(password: string, password_confirmation: string): Observable<{ success: boolean; message: string }> {
     const url = `${this.apiUrl}${API_ENDPOINTS.AUTH.RESET_PASSWORD}`;
-    const email = sessionStorage.getItem('email');
-    const token = sessionStorage.getItem('reset_password_token');
+    const email = localStorage.getItem('email');
+    const token = localStorage.getItem('reset_password_token');
 
     const payload = {
         email,
