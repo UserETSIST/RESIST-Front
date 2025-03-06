@@ -5,6 +5,8 @@ import { MapOptionsComponent } from '../map-options/map-options.component';
 import proj4 from 'proj4';
 import * as turf from '@turf/turf';
 import { HexCell } from '../../../models/hexagon.model';
+import { FlowbiteService } from '../../../services/flowbite.service';
+import { initFlowbite } from 'flowbite';
 
 
 @Component({
@@ -51,6 +53,7 @@ export class MapComponent implements OnInit {
 
   constructor(
     private leafletService: LeafletService,
+    private flowbiteService: FlowbiteService,
     @Inject(PLATFORM_ID) private platformId: Object 
   ) {}
 
@@ -65,6 +68,9 @@ export class MapComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.flowbiteService.loadFlowbite((flowbite) => {
+      initFlowbite();
+    });
     if (isPlatformBrowser(this.platformId)) {
       this.leafletService.loadLeaflet((leaflet: any) => {
         this.L = leaflet; // Assign Leaflet instance

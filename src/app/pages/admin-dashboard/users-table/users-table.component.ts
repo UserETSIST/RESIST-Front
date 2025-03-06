@@ -78,6 +78,7 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
     console.log("ngAfterViewInit() called. Ensuring we are in the browser.");
 
     if (isPlatformBrowser(this.platformId)) {
+      console.log("cargo los usuarios")
       this.loadUsers();
     }
   }
@@ -114,6 +115,7 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
   private loadUsers(): void {
     this.userService.getAllUsers().subscribe({
       next: (response) => {
+        console.log("RESPONSE: ", response.data)
         this.dataUsers = response.data;
         console.log("ALL USERS: ", response.data)
       },

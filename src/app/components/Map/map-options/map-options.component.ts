@@ -18,7 +18,7 @@ import type { ModalOptions, ModalInterface } from 'flowbite';
   imports: [CommonModule, FormsModule],
   styleUrls: ['./map-options.component.css']
 })
-export class MapOptionsComponent implements AfterViewInit{
+export class MapOptionsComponent implements OnInit{
 
   @Output() filteredEventsChange = new EventEmitter<any[]>(); // Event to emit data
   
@@ -90,10 +90,11 @@ export class MapOptionsComponent implements AfterViewInit{
   //   this.spoofing = true;
   // }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       // First, load Flowbite
       this.flowbiteService.loadFlowbite((flowbite) => {
+        initFlowbite();
         // Then load Flowbite DateRangePicker
         this.flowbiteService.loadFlowbiteDateRangePicker((flowbiteDateRangePicker) => {
           const datepickerEl = document.getElementById('date-range-picker');

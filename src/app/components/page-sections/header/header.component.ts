@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
    * Starts an interval timer that updates the remaining time until token expiration.
    */
   startTimer(): void {
-    const expiration = localStorage.getItem('token_expiration');
+    const expiration = sessionStorage.getItem('token_expiration');
     if (expiration) {
       const expirationDate = new Date(expiration);
       this.timerSubscription = interval(1000).subscribe(() => {

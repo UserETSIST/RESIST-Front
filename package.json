@@ -1,21 +1,20 @@
 {
-  "name": "tailwind-angular-starter",
-  "version": "2.0.0",
-  "description": "A free and open-source starter project to help you get started with the core Flowbite Library components and Angular",
+  "name": "resist-app",
+  "version": "1.0.0",
+  "description": "GNSS Jamming and Spoofing full-stack application",
   "license": "MIT",
-  "repository": "https://github.com/themesberg/tailwind-angular-starter",
-  "homepage": "https://flowbite.com/docs/getting-started/angular/",
+  "repository": "https://github.com/UserETSIST/RESIST-Front",
   "contributors": [
-    "Zoltán Szőgyényi (https://x.com/zoltanszogyenyi)"
+    "David Dima (daviddimavd@gmail.com)"
   ],
-  "author": "Bergside Inc.",
+  "author": "David Dima",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:flowbite-app": "node dist/flowbite-app/server/server.mjs"
+    "serve:ssr:RESIST-app": "node dist/resist-app/server/server.mjs"
   },
   "private": true,
   "dependencies": {

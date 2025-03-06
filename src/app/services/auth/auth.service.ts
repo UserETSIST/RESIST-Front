@@ -22,7 +22,7 @@ export class AuthService {
 
   /**
    * Sends login request to the API with email and password.
-   * If successful, it saves the token and is_admin flag to localStorage.
+   * If successful, it saves the token and is_admin flag to sessionStorage.
    * @param email User email
    * @param password User password
    */
@@ -38,7 +38,7 @@ export class AuthService {
           if (isPlatformBrowser(this.platformId)) {
             const expirationDuration = TOKEN.EXPIRATION_TIME_ms;
             const expirationDate = new Date(Date.now() + expirationDuration);
-            localStorage.setItem('token_expiration', expirationDate.toString());
+            sessionStorage.setItem('token_expiration', expirationDate.toString());
             this.startLogoutTimer(expirationDuration);
           }
         }),
@@ -49,7 +49,7 @@ export class AuthService {
   
 
   /**
-   * Saves the token and is_admin flag to localStorage if running in the browser.
+   * Saves the token and is_admin flag to sessionStorage if running in the browser.
    * @param response API response containing token and is_admin
    */
   private handleLoginResponse(): (source: Observable<{ access_token: string; token_type: string; is_admin: boolean }>) => Observable<void> {
@@ -58,9 +58,9 @@ export class AuthService {
         source.subscribe({
           next: (response) => {
             if (isPlatformBrowser(this.platformId)) {
-              localStorage.setItem('access_token', response.access_token);
-              localStorage.setItem('token_type', response.token_type);
-              localStorage.setItem('is_admin', JSON.stringify(response.is_admin));
+              sessionStorage.setItem('access_token', response.access_token);
+              sessionStorage.setItem('token_type', response.token_type);
+              sessionStorage.setItem('is_admin', JSON.stringify(response.is_admin));
             }
             console.log('Login successful, token and admin status saved.');
             observer.next();
@@ -83,8 +83,8 @@ export class AuthService {
 
   resetPassword(password: string, password_confirmation: string): Observable<{ success: boolean; message: string }> {
     const url = `${this.apiUrl}${API_ENDPOINTS.AUTH.RESET_PASSWORD}`;
-    const email = localStorage.getItem('email');
-    const token = localStorage.getItem('reset_password_token');
+    const email = sessionStorage.getItem('email');
+    const token = sessionStorage.getItem('reset_password_token');
 
     const payload = {
         email,
@@ -124,7 +124,7 @@ export class AuthService {
 
   getToken(): string | null {
     if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('access_token');
+      return sessionStorage.getItem('access_token');
     }
     return null;
   }
@@ -136,7 +136,7 @@ export class AuthService {
 
   isAdmin(): boolean {
     if (isPlatformBrowser(this.platformId)) {
-      const isAdmin = localStorage.getItem('is_admin');
+      const isAdmin = sessionStorage.getItem('is_admin');
       return isAdmin !== null ? JSON.parse(isAdmin) : false;
     }
     return false;
@@ -144,8 +144,8 @@ export class AuthService {
 
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('access_token');
-      const token_type = localStorage.getItem('token_type');
+      const token = sessionStorage.getItem('access_token');
+      const token_type = sessionStorage.getItem('token_type');
       if (token) {
         const headers = new HttpHeaders({
           Authorization: `${token_type} ${token}`
@@ -177,9 +177,9 @@ export class AuthService {
 
   private clearSession(): void {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('is_admin');
-      localStorage.removeItem('token_type');
+      sessionStorage.removeItem('access_token');
+      sessionStorage.removeItem('is_admin');
+      sessionStorage.removeItem('token_type');
     }
   }
 

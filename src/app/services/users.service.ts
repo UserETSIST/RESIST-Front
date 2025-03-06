@@ -22,11 +22,12 @@ export class UsersService {
     if (isBrowser) {
       console.log("✅ Running in browser, making API call...");
 
-      const tokenType = localStorage.getItem('token_type');
-      const accessToken = localStorage.getItem('access_token');
+      const tokenType = sessionStorage.getItem('token_type');
+      const accessToken = sessionStorage.getItem('access_token');
 
 
       if (tokenType && accessToken) {
+        console.log("TOKENS AVAILABLE")
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': `${tokenType} ${accessToken}`
