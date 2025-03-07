@@ -12,6 +12,7 @@ import { Error404Component } from './pages/error-404/error-404.component';
 import { ForibddenComponent } from './pages/foribdden/foribdden.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { RequestResetPasswordComponent } from './pages/request-reset-password/request-reset-password.component';
+import { TestDatatablesComponent } from './test-datatables/test-datatables.component';
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -27,5 +28,6 @@ export const routes: Routes = [
     {path: '403-forbidden', component:ForibddenComponent},
     {path: 'admin', component:AdminComponent},
     // {path: 'admin', component:AdminComponent, canActivate: [adminGuard]},
+    {path: 'test', component:TestDatatablesComponent},
     {path: '**', component: Error404Component},
 ];

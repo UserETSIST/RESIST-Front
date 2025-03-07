@@ -7,12 +7,13 @@ import * as turf from '@turf/turf';
 import { HexCell } from '../../../models/hexagon.model';
 import { FlowbiteService } from '../../../services/flowbite.service';
 import { initFlowbite } from 'flowbite';
+import { ReportComponent } from '../../report/report.component';
 
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [CommonModule, MapOptionsComponent],
+  imports: [CommonModule, MapOptionsComponent, ReportComponent],
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
@@ -76,7 +77,8 @@ export class MapComponent implements OnInit {
         this.L = leaflet; // Assign Leaflet instance
         console.log('Leaflet loaded');
 
-        this.map = this.L.map('map').setView([0, 0], 2);
+        this.map = this.L.map('map',{
+        }).setView([0, 0], 2);
         this.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; OpenStreetMap contributors'
         }).addTo(this.map);

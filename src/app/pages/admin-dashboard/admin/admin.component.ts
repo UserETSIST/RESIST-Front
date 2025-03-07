@@ -11,41 +11,7 @@ import { initFlowbite } from 'flowbite';
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
-export class AdminComponent implements OnInit, AfterViewInit {
-
-
- constructor(
-    private flowbiteService: FlowbiteService,
-    @Inject(PLATFORM_ID) private platformId: object
-  ) {}
-
-
-
-  ngAfterViewInit(): void {
- if (isPlatformBrowser(this.platformId)) {
-      this.flowbiteService.loadFlowbite(() => {
-        console.log('Flowbite loaded in ngOnInit.');
-      });
-      
-      setTimeout(() => {
-        initFlowbite();
-        console.log('Flowbite components initialized.');
-      }, 0);
-    }  }
-
-  
-  ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.flowbiteService.loadFlowbite(() => {
-        console.log('Flowbite loaded in ngOnInit.');
-      });
-      
-      setTimeout(() => {
-        initFlowbite();
-        console.log('Flowbite components initialized.');
-      }, 0);
-    }
-  }
+export class AdminComponent  {
 
 
 }

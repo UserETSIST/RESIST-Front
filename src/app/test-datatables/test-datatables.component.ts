@@ -1,22 +1,21 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { DataTable } from 'simple-datatables';
-import { FlowbiteService } from '../../../services/flowbite.service';
+import { FlowbiteService } from '../services/flowbite.service';
 import { initFlowbite } from 'flowbite';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { User } from '../../../models/user';
-import { UsersService } from '../../../services/users.service';
+import { User } from '../models/user';
+import { UsersService } from '../services/users.service'; 
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { FormsUtilitiesService } from '../../../services/forms-utilities.service';
+import { FormsUtilitiesService } from '../services/forms-utilities.service'; 
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-users-table',
+  selector: 'app-test-datatables',
   imports: [FormsModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './users-table.component.html',
-  styleUrls: ['./users-table.component.css'],
-
+  templateUrl: './test-datatables.component.html',
+  styleUrl: './test-datatables.component.css'
 })
-export class UsersTableComponent implements OnInit {
+export class TestDatatablesComponent implements OnInit {
 
   private dataTable: DataTable | null = null;
   dataUsers: User[] = [];
@@ -73,8 +72,23 @@ export class UsersTableComponent implements OnInit {
 
 
 
+
+  // ngAfterViewInit(): void {
+  //   console.log("ngAfterViewInit() called. Ensuring we are in the browser.");
+
+  //   if (isPlatformBrowser(this.platformId)) {
+  //     console.log("cargo los usuarios")
+  //     this.loadUsers();
+  //     console.log("usuarios cargads: ", this.dataUsers)
+  //   }
+  // }
+
   ngOnInit(): void {
+
     this.loadUsers();
+    
+   
+
   }
 
 
@@ -176,5 +190,7 @@ export class UsersTableComponent implements OnInit {
       }
     });
   }
+
+
 
 }
