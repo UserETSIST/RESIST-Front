@@ -174,14 +174,14 @@ export class AuthService {
       }
       this.clearSession();
     }
+    this.clearSession();
   }
 
   private clearSession(): void {
-    if (isPlatformBrowser(this.platformId)) {
       sessionStorage.removeItem('access_token');
       sessionStorage.removeItem('is_admin');
       sessionStorage.removeItem('token_type');
-    }
+    
   }
 
   startLogoutTimer(duration: number): void {

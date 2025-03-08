@@ -86,7 +86,7 @@ export class UsersTableComponent implements OnInit {
           paging: true,
           perPage: 5,
           perPageSelect: [1, 5, 10, 15, 20, 25],
-          sortable: false,
+          sortable: true,
           searchable: true
         });
         console.log('DataTable initialized.');
@@ -101,6 +101,7 @@ export class UsersTableComponent implements OnInit {
     this.userService.getAllUsers().subscribe({
       next: (response) => {
         this.dataUsers = response.data;
+        console.log("USERS: ", this.dataUsers)
         this.flowbiteService.loadFlowbite(() => {
           initFlowbite();
           console.log("Inicializo la tabla");

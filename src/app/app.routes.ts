@@ -12,7 +12,9 @@ import { Error404Component } from './pages/error-404/error-404.component';
 import { ForibddenComponent } from './pages/foribdden/foribdden.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { RequestResetPasswordComponent } from './pages/request-reset-password/request-reset-password.component';
-import { TestDatatablesComponent } from './test-datatables/test-datatables.component';
+import { Blog1Component } from './pages/blogs/blog-1/blog-1.component';
+import { Blog2Component } from './pages/blogs/blog-2/blog-2.component';
+import { Blog3Component } from './pages/blogs/blog-3/blog-3.component';
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -27,7 +29,9 @@ export const routes: Routes = [
     {path: 'faqs', component:FAQsComponent },
     {path: '403-forbidden', component:ForibddenComponent},
     {path: 'admin', component:AdminComponent},
+    {path: 'blogs/blog-1', component:Blog1Component},
+    {path: 'blogs/blog-2', component:Blog2Component},
+    {path: 'blogs/blog-3', component:Blog3Component},
     // {path: 'admin', component:AdminComponent, canActivate: [adminGuard]},
-    {path: 'test', component:TestDatatablesComponent},
     {path: '**', component: Error404Component},
 ];

@@ -1,5 +1,5 @@
 import { environment } from '../../../../environments/environment';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth/auth.service';
@@ -7,7 +7,7 @@ import { Subscription, interval } from 'rxjs';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
