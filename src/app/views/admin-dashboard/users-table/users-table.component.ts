@@ -8,6 +8,7 @@ import { UsersService } from '../../../services/users.service';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { FormsUtilitiesService } from '../../../services/forms-utilities.service';
 import Swal from 'sweetalert2';
+import {Modal} from 'flowbite';
 
 @Component({
   selector: 'app-users-table',

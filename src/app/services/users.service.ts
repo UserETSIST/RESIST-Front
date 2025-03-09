@@ -51,8 +51,8 @@ export class UsersService {
 
     console.log("✅ Running in browser, making API call...");
 
-    const tokenType = localStorage.getItem('token_type');
-    const accessToken = localStorage.getItem('access_token');
+    const tokenType = sessionStorage.getItem('token_type');
+    const accessToken = sessionStorage.getItem('access_token');
 
 
     if (tokenType && accessToken) {
