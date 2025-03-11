@@ -16,7 +16,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { initFlowbite } from 'flowbite';
 import { FlowbiteService } from '../../services/flowbite.service';
 import { Modal } from "flowbite";
-
+import { Tooltip } from 'flowbite';
+import type { TooltipOptions, TooltipInterface } from 'flowbite';
+import type { InstanceOptions } from 'flowbite';
 
 
 
@@ -38,6 +40,7 @@ export class DataTableComponent implements OnInit {
 
   error?: string;
   createUserForm: FormGroup;
+  editUserForm: FormGroup;
   selectedUserToDelete: any = "";
   deleteModal!: Modal;
   editModal!: Modal;
@@ -61,7 +64,7 @@ export class DataTableComponent implements OnInit {
           Validators.minLength(2),
           this.formValidator.noMaliciousContent.bind(this.formValidator)
         ]),
-        status: new FormControl(true, Validators.required),
+        status: new FormControl(false, Validators.required),
         permissions: new FormControl('', Validators.required),
         email: new FormControl('', [
           Validators.required,
@@ -81,15 +84,52 @@ export class DataTableComponent implements OnInit {
       },
       { validators: this.passwordsMatchValidator }
     );
+
+    this.editUserForm = new FormGroup(
+      {
+
+        first_name: new FormControl('', [
+          Validators.required,
+          Validators.minLength(2),
+          this.formValidator.noMaliciousContent.bind(this.formValidator)
+        ]),
+        last_name: new FormControl('', [
+          Validators.required,
+          Validators.minLength(2),
+          this.formValidator.noMaliciousContent.bind(this.formValidator)
+        ]),
+        status: new FormControl(true, Validators.required),
+        permissions: new FormControl('', Validators.required),
+        email: new FormControl('', [
+          Validators.required,
+          Validators.email,
+          this.formValidator.noMaliciousContent.bind(this.formValidator)
+        ]),
+        password: new FormControl('', [
+          Validators.minLength(8),
+          this.formValidator.noMaliciousContent.bind(this.formValidator)
+        ]),
+        password_confirmation: new FormControl('', [
+          Validators.minLength(8),
+          this.formValidator.noMaliciousContent.bind(this.formValidator)
+        ])
+      },
+      { validators: this.passwordsMatchValidator }
+    );
   }
 
   // ✅ Initialize Flowbite and Load Data
   ngOnInit(): void {
     this.flowbiteService.loadFlowbite(() => {
+
       initFlowbite();
       console.log("Flowbite initialized");
       this.loadUsers();
+
+
       setTimeout(() => this.initializeModals(), 100);
+      setTimeout(() => this.initializeTooltips(), 100);
+
     });
   }
 
@@ -185,11 +225,31 @@ export class DataTableComponent implements OnInit {
     }
   }
 
+  private initializeTooltips(): void {
+    // set the tooltip content element
+    const targetEl: HTMLElement = document.getElementById('tooltip-permissions-content') as HTMLElement;
+    // set the element that trigger the tooltip using hover or click
+    const triggerEl: HTMLElement = document.getElementById('tooltip-permissions-button') as HTMLElement;
+
+    const options: TooltipOptions = {
+      placement: 'top',
+      triggerType: 'hover'
+    }
+
+
+    if (targetEl && triggerEl) {
+      const tooltip: TooltipInterface = new Tooltip(targetEl, triggerEl, options);
+    } else {
+      console.warn('Modal elements not found in DOM!');
+    }
+  }
+
+
 
 
   // ✅ Open Delete Modal
   openDeleteModal(row: any): void {
-    console.log("ROWW: ",row)
+    console.log("ROWW: ", row)
     this.selectedUserToDelete = row;
     console.log('Selected user to delete:', row.id);
 
@@ -210,7 +270,21 @@ export class DataTableComponent implements OnInit {
 
   openEditModal(row: any): void {
     this.selectedUserToEdit = row;
-    console.log("Editing user: ", row.email)
+
+    this.editUserForm.reset();
+
+    const { first_name, last_name, email, is_admin, is_active } = this.selectedUserToEdit;
+
+    this.editUserForm.patchValue({
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      permissions: is_admin,
+      status: is_active
+    });
+
+    console.log("ROW: ", this.selectedUserToEdit);
+    console.log("Form: ", this.editUserForm.value);
     if (this.editModal) {
       this.editModal.show();
     } else {
@@ -239,11 +313,88 @@ export class DataTableComponent implements OnInit {
 
   // ✅ Delete User
   deleteUser(): void {
-    console.log('Deleting user with ID:', this.selectedUserToDelete.id);
+
+    this.userService.deactivateUser(this.selectedUserToDelete.id).subscribe({
+      next: (response) => {
+        if (response.success) {
+          Swal.fire({
+            icon: 'success',
+            title: response.message,
+            timer: 3000,
+            showConfirmButton: false
+          });
+          this.loadUsers();
+        }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An unexpected error occurred!',
+          timer: 2500,
+          showConfirmButton: false
+        });
+      }
+    });
   }
 
   // ✅ Edit User
   editUser(): void {
-    console.log('Editing user with ID:');
+    if (this.editUserForm.invalid) {
+      console.warn('⚠ Form is invalid');
+      return;
+    }
+
+    const { first_name, last_name, email, password, permissions, status } = this.editUserForm.value;
+    const is_admin = !!permissions;
+    const is_active = status;
+
+
+
+    // Create a dynamic object based on the provided values
+    const updates: Partial<any> = {};
+
+    if (first_name) updates['first_name'] = first_name;
+    if (last_name) updates['last_name'] = last_name;
+    if (email) updates['email'] = email;
+    if (password) {
+      updates['password'] = password;
+      updates['password_confirmation'] = password;
+    }
+    if (is_admin !== undefined) updates['is_admin'] = is_admin;
+    if (is_active !== undefined) updates['is_active'] = is_active;
+
+    // Ensure the selectedUserId exists before sending the request
+    if (!this.selectedUserToEdit.id) {
+      console.warn('⚠ No user selected to update.');
+      return;
+    }
+
+    console.log('📡 PATCH request payload:', updates);
+    this.closeEditModal();
+
+    this.userService.editUser(this.selectedUserToEdit.id, updates).subscribe({
+      next: (response) => {
+        Swal.fire({
+          icon: 'success',
+          title: response.message,
+          timer: 3000,
+          showConfirmButton: false
+        });
+
+        this.editUserForm.reset();
+        this.loadUsers(); // Refresh the table after updating
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: error.message,
+          text: error.error,
+          timer: 2500,
+          showConfirmButton: false
+        });
+      }
+    });
   }
+
 }
