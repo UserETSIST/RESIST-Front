@@ -4,9 +4,9 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
-import { UsersService } from '../../services/users.service';
-import { FormsUtilitiesService } from '../../services/forms-utilities.service';
-import { User } from '../../models/user';
+import { UsersService } from '../../../services/users.service'; 
+import { FormsUtilitiesService } from '../../../services/forms-utilities.service'; 
+import { User } from '../../../models/user.model';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { initFlowbite } from 'flowbite';
-import { FlowbiteService } from '../../services/flowbite.service';
+import { FlowbiteService } from '../../../services/flowbite.service';
 import { Modal } from "flowbite";
 import { Tooltip } from 'flowbite';
 import type { TooltipOptions, TooltipInterface } from 'flowbite';
@@ -23,12 +23,12 @@ import type { InstanceOptions } from 'flowbite';
 
 
 @Component({
-  selector: 'app-data-table',
+  selector: 'app-users-table',
   imports: [MatButtonModule, MatIconModule, MatFormFieldModule, MatPaginatorModule, MatTableModule, MatInputModule, MatSortModule, FormsModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './data-table.component.html',
-  styleUrl: './data-table.component.css',
+  templateUrl: './users-table.component.html',
+  styleUrl: './users-table.component.css',
 })
-export class DataTableComponent implements OnInit {
+export class UsersTableComponent implements OnInit {
   displayedColumns = ['first_name', 'is_admin', 'email', 'is_active', 'actions'];
   dataSource!: MatTableDataSource<User>;
   private _liveAnnouncer = inject(LiveAnnouncer);

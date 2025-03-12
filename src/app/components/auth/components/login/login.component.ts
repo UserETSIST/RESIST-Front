@@ -23,7 +23,6 @@ export class LoginComponent implements OnInit{
   constructor(private authService: AuthService, private router: Router, private formValidator: FormsUtilitiesService) {}
 
   ngOnInit(): void {
-    // Create the form group and its controls without FormBuilder
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email, this.formValidator.noMaliciousContent.bind(this.formValidator)]),
       password: new FormControl('', [Validators.required, this.formValidator.noMaliciousContent.bind(this.formValidator)])

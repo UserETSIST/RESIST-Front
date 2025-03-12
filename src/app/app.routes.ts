@@ -15,7 +15,6 @@ import { RequestResetPasswordComponent } from './views/request-reset-password/re
 import { Blog1Component } from './views/blogs/blog-1/blog-1.component';
 import { Blog2Component } from './views/blogs/blog-2/blog-2.component';
 import { Blog3Component } from './views/blogs/blog-3/blog-3.component';
-import { DataTableComponent } from './components/data-table/data-table.component';
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -29,11 +28,10 @@ export const routes: Routes = [
     {path: 'about-us', component:AboutUsComponent },
     {path: 'faqs', component:FAQsComponent },
     {path: '403-forbidden', component:ForibddenComponent},
-    {path: 'admin', component:AdminComponent},
+    {path: 'admin', component: AdminComponent},
     {path: 'blogs/blog-1', component:Blog1Component},
     {path: 'blogs/blog-2', component:Blog2Component},
     {path: 'blogs/blog-3', component:Blog3Component},
-    {path: 'test', component:DataTableComponent},
     // {path: 'admin', component:AdminComponent, canActivate: [adminGuard]},
     {path: '**', component: Error404Component},
 ];

@@ -3,11 +3,11 @@ import { HeaderComponent } from '../../../components/page-sections/header/header
 import { FlowbiteService } from '../../../services/flowbite.service';
 import { isPlatformBrowser } from '@angular/common';
 import { initFlowbite } from 'flowbite';
-import { DataTableComponent } from '../../../components/data-table/data-table.component';
+import { UsersTableComponent } from '../users-table/users-table.component';
 
 @Component({
   selector: 'app-admin',
-  imports: [HeaderComponent, DataTableComponent],
+  imports: [HeaderComponent,UsersTableComponent ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })

@@ -1,54 +1,191 @@
 <app-header></app-header>
 <section class="bg-white dark:bg-gray-900">
-    <div class="bg-[url('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/contact/laptop-human.jpg')] bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply">
+    <div
+        class="bg-[url('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/contact/laptop-human.jpg')] bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply">
         <div class="px-4 lg:pt-24 pt-8 pb-72 lg:pb-80 mx-auto max-w-screen-sm text-center lg:px-6 ">
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-white">Contact Us</h2>
-            <p class="mb-16 font-light text-gray-400 sm:text-xl">We use an agile approach to test assumptions and connect with the needs of your audience early and often.</p>
-        </div> 
+            <p class="mb-16 font-light text-gray-400 sm:text-xl">We use an agile approach to test assumptions and
+                connect with the needs of your audience early and often.</p>
+        </div>
     </div>
     <div class="py-16 px-4 mx-auto -mt-96 max-w-screen-xl sm:py-24 lg:px-6 ">
-        <form action="#" class="grid grid-cols-1 gap-8 p-6 mx-auto mb-16 max-w-screen-md bg-white rounded-lg border border-gray-200 shadow-sm lg:mb-28 dark:bg-gray-800 dark:border-gray-700 sm:grid-cols-2">
+        <form [formGroup]="contactForm" (ngSubmit)="sendContactForm()"
+            class="grid grid-cols-1 gap-8 p-6 mx-auto mb-16 max-w-screen-md bg-white rounded-lg border border-gray-200 shadow-sm lg:mb-28 dark:bg-gray-800 dark:border-gray-700 sm:grid-cols-2">
+
+            <!-- First Name -->
             <div>
-                <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">First Name</label>
-                <input type="text" id="first-name" class="block p-3 w-full text-sm text-gray-400 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Bonnie" required>
+                <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    First Name <span class="text-red-500">*</span>
+                </label>
+                <input type="text" id="first-name" formControlName="first_name" class="block p-3 w-full text-sm text-gray-600 bg-gray-50 rounded-lg border 
+                border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 
+                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
+                dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Bonnie">
+
+                <!-- Validation Feedback -->
+                <ng-container *ngIf="contactForm.get('first_name') as firstNameControl">
+                    <div *ngIf="firstNameControl.invalid && (firstNameControl.dirty || firstNameControl.touched)"
+                        class="text-red-500 text-xs mt-1">
+                        <div *ngIf="firstNameControl.errors?.['required']">
+                            First Name is required.
+                        </div>
+                        <div *ngIf="firstNameControl.errors?.['minlength']">
+                            Minimum length is 2 characters.
+                        </div>
+                        <div *ngIf="firstNameControl.errors?.['maliciousContent']">
+                            {{ firstNameControl.errors?.['maliciousContent'].message }}
+                        </div>
+                    </div>
+                </ng-container>
             </div>
+
+            <!-- Last Name -->
             <div>
-                <label for="last-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Last Name</label>
-                <input type="text" id="last-name" class="block p-3 w-full text-sm text-gray-400 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Green" required>
+                <label for="last-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    Last Name <span class="text-red-500">*</span>
+                </label>
+                <input type="text" id="last-name" formControlName="last_name" class="block p-3 w-full text-sm text-gray-600 bg-gray-50 rounded-lg border 
+                border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 
+                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
+                dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Green">
+
+                <!-- Validation Feedback -->
+                <ng-container *ngIf="contactForm.get('last_name') as lastNameControl">
+                    <div *ngIf="lastNameControl.invalid && (lastNameControl.dirty || lastNameControl.touched)"
+                        class="text-red-500 text-xs mt-1">
+                        <div *ngIf="lastNameControl.errors?.['required']">
+                            Last Name is required.
+                        </div>
+                        <div *ngIf="lastNameControl.errors?.['minlength']">
+                            Minimum length is 2 characters.
+                        </div>
+                        <div *ngIf="lastNameControl.errors?.['maliciousContent']">
+                            {{ lastNameControl.errors?.['maliciousContent'].message }}
+                        </div>
+                    </div>
+                </ng-container>
             </div>
+
+            <!-- Email -->
             <div>
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your email</label>
-                <input type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="name@flowbite.com" required>
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    Email <span class="text-red-500">*</span>
+                </label>
+                <input type="email" id="email" formControlName="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-600 text-sm rounded-lg 
+                focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 
+                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
+                dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                    placeholder="name@flowbite.com">
+
+                <!-- Validation Feedback -->
+                <ng-container *ngIf="contactForm.get('email') as emailControl">
+                    <div *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched)"
+                        class="text-red-500 text-xs mt-1">
+                        <div *ngIf="emailControl.errors?.['required']">
+                            Email is required.
+                        </div>
+                        <div *ngIf="emailControl.errors?.['email']">
+                            Invalid email format.
+                        </div>
+                        <div *ngIf="emailControl.errors?.['maliciousContent']">
+                            {{ emailControl.errors?.['maliciousContent'].message }}
+                        </div>
+                    </div>
+                </ng-container>
             </div>
+
+            <!-- Phone Number -->
             <div>
-                <label for="phone-number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Phone Number</label>
-                <input type="number" id="phone-number" class="block p-3 w-full text-sm text-gray-400 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="+12 345 6789" required>
+                <label for="phone-number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    Phone Number
+                </label>
+                <input type="text" id="phone-number" formControlName="phone" class="block p-3 w-full text-sm text-gray-600 bg-gray-50 rounded-lg border 
+                border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 
+                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
+                dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                    placeholder="+123456789">
+
+                <!-- Validation Feedback -->
+                <ng-container *ngIf="contactForm.get('phone') as phoneControl">
+                    <div *ngIf="phoneControl.invalid && (phoneControl.dirty || phoneControl.touched)"
+                        class="text-red-500 text-xs mt-1">
+                        <div *ngIf="phoneControl.errors?.['pattern']">
+                            Invalid phone number format.
+                        </div>
+                        <div *ngIf="phoneControl.errors?.['maliciousContent']">
+                            {{ phoneControl.errors?.['maliciousContent'].message }}
+                        </div>
+                    </div>
+                </ng-container>
             </div>
+
+            <!-- Message -->
             <div class="sm:col-span-2">
-                <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Your message</label>
-                <textarea id="message" rows="6" class="block p-2.5 w-full text-sm text-gray-400 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Leave a comment..."></textarea>
-                <p class="mt-4 text-sm text-gray-500">By submitting this form you agree to our <a href="#" class="text-primary-600 hover:underline dark:text-primary-500">terms and conditions</a> and our <a href="#" class="text-primary-600 hover:underline dark:text-primary-500">privacy policy</a> which explains how we may collect, use and disclose your personal information including to third parties.</p>
+                <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                    Your message <span class="text-red-500">*</span>
+                </label>
+                <textarea id="message" formControlName="message" rows="6" class="block p-2.5 w-full text-sm text-gray-600 bg-gray-50 rounded-lg shadow-sm border 
+                border-gray-300 focus:ring-primary-500 focus:border-primary-500 
+                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
+                dark:focus:ring-primary-500 dark:focus:border-primary-500"></textarea>
             </div>
-            <button type="submit" class="text-white bg-gradient-to-br from-red-500 via-red-600 to-pink-700 hover:bg-gradient-to-bl focus:ring-3 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-4 py-3 text-center">Send message</button>
+
+
+            <!-- Submit Button -->
+            <button type="submit" class="text-white bg-gradient-to-br from-red-500 via-red-600 to-pink-700 hover:bg-gradient-to-bl 
+            focus:ring-3 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 
+            font-medium rounded-lg text-sm px-4 py-3 text-center disabled:opacity-50" [disabled]="contactForm.invalid">
+                Send message
+            </button>
+
+
+            <!-- Validation Feedback -->
+            <ng-container *ngIf="contactForm.get('message') as messageControl">
+                <div *ngIf="messageControl.invalid && (messageControl.dirty || messageControl.touched)"
+                    class="text-red-500 text-xs mt-1">
+                    <div *ngIf="messageControl.errors?.['required']">
+                        Message is required.
+                    </div>
+                    <div *ngIf="messageControl.errors?.['maliciousContent']">
+                        {{ messageControl.errors?.['maliciousContent'].message }}
+                    </div>
+                </div>
+            </ng-container>
         </form>
+
+
         <div class="space-y-8 text-center md:grid md:grid-cols-2 lg:grid-cols-2 md:gap-12 md:space-y-0">
             <div>
-                <div class="flex justify-center items-center mx-auto mb-4 w-10 h-10 bg-gray-100 rounded-lg dark:bg-gray-800 lg:h-16 lg:w-16">
-                    <svg class="w-5 h-5 text-gray-600 lg:w-8 lg:h-8 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+                <div
+                    class="flex justify-center items-center mx-auto mb-4 w-10 h-10 bg-gray-100 rounded-lg dark:bg-gray-800 lg:h-16 lg:w-16">
+                    <svg class="w-5 h-5 text-gray-600 lg:w-8 lg:h-8 dark:text-gray-500" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                    </svg>
                 </div>
                 <p class="mb-2 text-xl font-bold dark:text-white">Email us:</p>
-                <p class="mb-3 text-gray-500 dark:text-gray-400">Email us for general queries, including marketing and partnership opportunities.</p>
-                <a href="mailto:abc@example.com" class="font-semibold text-primary-600 dark:text-primary-500 hover:underline">hello&#64;flowbite.com</a>
+                <p class="mb-3 text-gray-500 dark:text-gray-400">Email us for general queries, including marketing and
+                    partnership opportunities.</p>
+                <a href="mailto:abc@example.com"
+                    class="font-semibold text-primary-600 dark:text-primary-500 hover:underline">support&#64;resist.com</a>
             </div>
             <div>
-                <div class="flex justify-center items-center mx-auto mb-4 w-10 h-10 bg-gray-100 rounded-lg dark:bg-gray-800 lg:h-16 lg:w-16">
-                    <svg class="w-5 h-5 text-gray-600 lg:w-8 lg:h-8 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                <div
+                    class="flex justify-center items-center mx-auto mb-4 w-10 h-10 bg-gray-100 rounded-lg dark:bg-gray-800 lg:h-16 lg:w-16">
+                    <svg class="w-5 h-5 text-gray-600 lg:w-8 lg:h-8 dark:text-gray-500" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z">
+                        </path>
+                    </svg>
                 </div>
                 <p class="mb-2 text-xl font-bold dark:text-white">Call us:</p>
-                <p class="mb-3 text-gray-500 dark:text-gray-400">Call us to speak to a member of our team. We are always happy to help.</p>
-                <span class="font-semibold text-primary-600 dark:text-primary-500">+1 (646) 786-5060</span>
+                <p class="mb-3 text-gray-500 dark:text-gray-400">Call us to speak to a member of our team. We are always
+                    happy to help.</p>
+                <span class="font-semibold text-primary-600 dark:text-primary-500">+49 646 786 500</span>
             </div>
-            
+
         </div>
     </div>
 </section>

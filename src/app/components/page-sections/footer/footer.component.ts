@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Router, RouterLink } from '@angular/router';
 import { NewsletterService } from '../../../services/newsletter.service';
-import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 
@@ -17,13 +17,13 @@ export class FooterComponent {
 
   GfRLogo = environment.GFR_LOGO;
 
-  subscribeToNewsLetterForm = new FormGroup ({
-    email: new FormControl('', [Validators.required,Validators.email, this.forbiddenCodeValidator])
+  subscribeToNewsLetterForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email, this.forbiddenCodeValidator])
   })
 
 
 
-  constructor(private newsletterService: NewsletterService ) {}
+  constructor(private newsletterService: NewsletterService) { }
 
   onSubscribe(): void {
     if (this.subscribeToNewsLetterForm.valid) {
@@ -61,14 +61,14 @@ export class FooterComponent {
       /\b(SELECT|INSERT|UPDATE|DELETE|DROP|--)\b/gi,          // Detecta palabras clave SQL
       /(\%27)|(\')|(\-\-)|(\%23)|(#)/gi,                      // Detecta caracteres de inyección SQL (' -- #)
     ];
-  
+
     for (const pattern of forbiddenPatterns) {
       if (pattern.test(control.value)) {
         return { forbiddenCode: true };
       }
     }
-  
-    return null;  
+
+    return null;
   }
 
 

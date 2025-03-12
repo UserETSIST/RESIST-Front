@@ -96,7 +96,7 @@
                                         stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
                                 </svg>
 
-                                Delete
+                                Disable
                             </button>
                         </mat-cell>
                     </ng-container>
@@ -111,8 +111,10 @@
         </div>
     </div>
 </section>
+
+
 <!-- Create User Modal -->
-<div id="create-modal" tabindex="-1" aria-hidden="true"
+<div #createModal id="create-modal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <!-- Modal content -->
@@ -304,7 +306,7 @@
 </div>
 
 <!-- Delete User Modal -->
-<div id="delete-modal" tabindex="-1"
+<div #deleteModal id="delete-modal" tabindex="-1"
     class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-md max-h-full">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -325,7 +327,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M24 16v8m0 8h.02M42 24a18 18 0 11-36 0 18 18 0 0136 0z" />
                 </svg>
-                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to disable 
                     <span class="font-bold">
                         {{ selectedUserToDelete.first_name }} {{ selectedUserToDelete.last_name }}
                     </span>?
@@ -344,7 +346,7 @@
 
 
 <!-- Edit User Modal-->
-<div id="edit-modal" tabindex="-1" aria-hidden="true"
+<div #editModal id="edit-modal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <!-- Modal content -->
@@ -458,12 +460,12 @@
                                 <div class="tooltip-arrow" data-popper-arrow=""></div>
                             </div>
                         </label>
-                        <select [value]="selectedUserToEdit?.is_admin ? 'Administrator' : 'Viewer'"
-                            formControlName="permissions" id="user-permissions-edit"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option value="true">Administrator</option>
-                            <option value="false">Viewer</option>
-                        </select>
+                        <select formControlName="permissions" id="user-permissions-edit"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                        <option [value]="true">Administrator</option>
+                        <option [value]="false">Viewer</option>
+                    </select>
+                    
                     </div>
                     <div>
                         <label for="password-edit"
