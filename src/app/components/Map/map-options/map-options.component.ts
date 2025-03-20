@@ -2,11 +2,10 @@ import { AfterViewInit, Component, EventEmitter, Inject, OnInit, Output, PLATFOR
 import { isPlatformBrowser } from '@angular/common';
 import { EventsService } from '../../../services/events.service';
 import { FlowbiteService } from '../../../services/flowbite.service';
-import { DateRangePicker } from 'flowbite-datepicker';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatepickerOptions, initFlowbite } from 'flowbite';
-import { Datepicker } from 'flowbite-datepicker';
+import { Datepicker, DateRangePicker } from 'flowbite-datepicker';
 import { Modal } from 'flowbite';
 import type { ModalOptions, ModalInterface } from 'flowbite';
 
@@ -97,7 +96,7 @@ export class MapOptionsComponent implements OnInit{
         initFlowbite();
         // Then load Flowbite DateRangePicker
         this.flowbiteService.loadFlowbiteDateRangePicker((flowbiteDateRangePicker) => {
-          const datepickerEl = document.getElementById('date-range-picker');
+          const datepickerEl: HTMLInputElement = document.getElementById('date-range-picker') as HTMLInputElement;
           if (datepickerEl) {
             const options = {
               format: 'yyyy-mm-dd',
@@ -141,14 +140,6 @@ export class MapOptionsComponent implements OnInit{
       this.endDate = this.formatDate(endDate);
       this.startDate = this.formatDate(startDate);
 
-    // this.eventsService.getRecentEvents(7).subscribe({
-    //   next: response => {
-    //     // console.log('API Response:', response);
-    //     this.events = response.data;
-    //     this.filterEvents();
-    //   },
-    //   error: error => console.error('Error fetching recent events:', error)
-    // });
   }
 
   on14DaysClick(): void {
@@ -159,14 +150,7 @@ export class MapOptionsComponent implements OnInit{
 
       this.endDate = this.formatDate(endDate);
       this.startDate = this.formatDate(startDate);
-    // this.eventsService.getRecentEvents(14).subscribe({
-    //   next: response => {
-    //     // console.log('API Response:', response);
-    //     this.events = response.data;
-    //     this.filterEvents();
-    //   },
-    //   error: error => console.error('Error fetching recent events:', error)
-    // });
+   
   }
 
   on30DaysClick(): void {
@@ -177,14 +161,7 @@ export class MapOptionsComponent implements OnInit{
 
       this.endDate = this.formatDate(endDate);
       this.startDate = this.formatDate(startDate);
-    // this.eventsService.getRecentEvents(30).subscribe({
-    //   next: response => {
-    //     // console.log('API Response:', response);
-    //     this.events = response.data;
-    //     this.filterEvents();
-    //   },
-    //   error: error => console.error('Error fetching recent events:', error)
-    // });
+ 
   }
 
   onCheckboxChange(filter: string, event: Event): void {
@@ -196,7 +173,6 @@ export class MapOptionsComponent implements OnInit{
       this.spoofing = isChecked;
     }
     this.filterEvents();
-    // console.log(`Filter ${filter} is now: ${isChecked}`);
   }
 
 
@@ -218,15 +194,6 @@ export class MapOptionsComponent implements OnInit{
     console.log("LO TOCOOOO");
     console.log(this.datepicker?.getDates());
 
-    // this.eventsService.getEventsOnRange(this.startDate, this.endDate, this.jamming, this.spoofing).subscribe({
-    //   next: response => {
-    //     this.events = response.data;
-    //     this.filterEvents();
-    //   },
-    //   error: error => console.error('Error fetching recent events:', error)
-    // });
-    // console.log("Fechas Seleccionadas:", this.datepicker?.getDates())
-    // console.log("Start Date: ", this.formatDate(new Date(this.datepicker!.getDates()[0]!)), "End Date: ", this.formatDate(new Date(this.datepicker!.getDates()[1]!)))
 
   }
 

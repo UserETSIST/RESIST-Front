@@ -11,7 +11,7 @@ import { Subscription, interval } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
   isMenuOpen: boolean = false;
   timeRemaining: string = ''; // Holds the formatted countdown (mm:ss)
   private timerSubscription: Subscription | undefined;
@@ -49,11 +49,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.timerSubscription) {
-      this.timerSubscription.unsubscribe();
-    }
-  }
+  // ngOnDestroy(): void {
+  //   if (this.timerSubscription) {
+  //     this.timerSubscription.unsubscribe();
+  //   }
+  // }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;

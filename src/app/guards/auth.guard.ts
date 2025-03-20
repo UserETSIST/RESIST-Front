@@ -9,7 +9,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (authService.isAuthenticated()) {
     return true; // Allow navigation
   } else {
-    console.log('Access denied. Redirecting to login.');
+    console.log('Access denied. Redirecting...');
     router.navigate(['/403-forbidden']);
     return false; // Block navigation
   }

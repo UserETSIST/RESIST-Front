@@ -18,7 +18,7 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) { }
 
   /**
    * Sends login request to the API with email and password.
@@ -46,7 +46,7 @@ export class AuthService {
         this.handleLoginResponse()
       );
   }
-  
+
 
   /**
    * Saves the token and is_admin flag to sessionStorage if running in the browser.
@@ -76,7 +76,7 @@ export class AuthService {
   forgotPassword(email: string): Observable<{ success: Boolean; message: string; reset_password_token?: string; email?: string }> {
     const url = `${this.apiUrl}${API_ENDPOINTS.AUTH.FORGOT_PASSWORD}`;
 
-    return this.http.post<{  success: Boolean; message: string; reset_password_token?: string; email?: string }>(url, { email }).pipe(
+    return this.http.post<{ success: Boolean; message: string; reset_password_token?: string; email?: string }>(url, { email }).pipe(
       catchError(this.forgotPasswordHandleError)
     );
   }
@@ -87,23 +87,23 @@ export class AuthService {
     const token = sessionStorage.getItem('reset_password_token');
 
     const payload = {
-        email,
-        password,
-        token,
-        password_confirmation
+      email,
+      password,
+      token,
+      password_confirmation
     };
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
-  });
+    });
 
     return this.http.post<{ success: boolean; message: string }>(url, payload, { headers }).pipe(
-        catchError((error: any) => {
-            console.error('Error resetting password:', error);
-            return throwError(() => new Error(error));
-        })
+      catchError((error: any) => {
+        console.error('Error resetting password:', error);
+        return throwError(() => new Error(error));
+      })
     );
-}
+  }
 
 
 
@@ -132,7 +132,7 @@ export class AuthService {
   isAuthenticated(): boolean {
     return Boolean(this.getToken());
   }
-  
+
 
   isAdmin(): boolean {
     if (isPlatformBrowser(this.platformId)) {
@@ -153,7 +153,7 @@ export class AuthService {
 
         this.http.post(`${this.apiUrl}${API_ENDPOINTS.AUTH.LOGOUT}`, {}, { headers }).subscribe({
           next: () => {
-            console.log('Logout successful');
+            console.log('Logout successful, cleaning session storage');
             this.clearSession();
             this.router.navigate(['/login']);
           },
@@ -165,6 +165,7 @@ export class AuthService {
         });
       } else {
         console.error('No token found for logout');
+        this.clearSession();
         this.router.navigate(['/login']);
       }
 
@@ -178,10 +179,11 @@ export class AuthService {
   }
 
   private clearSession(): void {
-      sessionStorage.removeItem('access_token');
-      sessionStorage.removeItem('is_admin');
-      sessionStorage.removeItem('token_type');
-    
+    sessionStorage.removeItem('access_token');
+    sessionStorage.removeItem('is_admin');
+    sessionStorage.removeItem('token_type');
+    sessionStorage.removeItem('token_expiration');
+
   }
 
   startLogoutTimer(duration: number): void {
