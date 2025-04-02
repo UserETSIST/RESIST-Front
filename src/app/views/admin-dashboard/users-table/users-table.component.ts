@@ -346,7 +346,9 @@ export class UsersTableComponent implements OnInit {
     }
 
     const { first_name, last_name, email, password, permissions, status } = this.editUserForm.value;
-    const is_admin = !!permissions;
+    console.log("PERMISSIONS: ", permissions);
+    const is_admin = permissions === "true";
+    console.log("ADMIIN: ", is_admin)
     const is_active = status;
 
 
